@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}Example Title{% endblock %}
+
+{% block style %}
+<style>
+  #example {
+    color: red;
+    font-weight: bold;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<h1>This is an example header!</h1>
+<p>This is example text.</p>
+<p id="example">Example text with CSS.</p>
+{% endblock %}
