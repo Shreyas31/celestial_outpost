@@ -1,10 +1,10 @@
 from flask import Flask, request, render_template
 
-from sqlalchemy import create_engine, select, delete
-from sqlalchemy.engine import URL
-from sqlalchemy.orm import Session
+# from sqlalchemy import create_engine, select, delete
+# from sqlalchemy.engine import URL
+# from sqlalchemy.orm import Session
 
-from dotenv import load_dotenv
+# from dotenv import load_dotenv
 
 app = Flask(__name__)
 
@@ -15,8 +15,4 @@ def page_home():
 
 
 if __name__ == "__main__":
-    app.run(
-        host="0.0.0.0",
-        port=8000,
-        debug=True
-    )
+    app.run(host="0.0.0.0", port=8000, debug=True)
