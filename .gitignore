@@ -1,5 +1,9 @@
+# This file is used to specify files and directories that should be ignored by Git.
+
+# Downloaded and cached files for Python packages
+venv
 __pycache__
-.venv/
-venv/
-.env
 *.pyc
+
+# Local editor configuration files
+.idea
