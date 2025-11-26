@@ -1,18 +1,11 @@
 import os
 
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request
 from sqlalchemy import create_engine, select, delete
 from sqlalchemy.engine import URL
 from sqlalchemy.orm import Session, joinedload
-from flask import Flask, render_template
 
-from .star import star_bp
-
-# from sqlalchemy import create_engine, select, delete
-# from sqlalchemy.engine import URL
-# from sqlalchemy.orm import Session
-
-# from dotenv import load_dotenv
+from star import star_bp
 
 app = Flask(__name__)
 app.register_blueprint(star_bp)
@@ -24,10 +17,11 @@ url = URL.create(
     host=os.getenv("DB_HOST"),
     port=os.getenv("DB_PORT"),
     database=os.getenv("DB_NAME"),
-    query={"client_encoding": "utf8"}
+    query={"client_encoding": "utf8"},
 )
 
 engine = create_engine(url)
+
 
 @app.route("/")
 def page_home():
