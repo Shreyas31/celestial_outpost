@@ -1,6 +1,6 @@
 # Astro Query
 
-Run program with `python app.py`. Access via `localhost:8000`.
+Run program with `flask run --host=0.0.0.0 --port=8000`. Access via `localhost:8000`.
 
 Make sure you make a venv and install the packages:
 
