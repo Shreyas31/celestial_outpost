@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template
+from flask import Flask, render_template
 
 # from sqlalchemy import create_engine, select, delete
 # from sqlalchemy.engine import URL
