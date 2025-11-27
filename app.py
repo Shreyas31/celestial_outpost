@@ -15,7 +15,7 @@ url = URL.create(
     username=os.getenv("DB_USER"),
     password=os.getenv("DB_PASSWORD"),
     host=os.getenv("DB_HOST"),
-    port=os.getenv("DB_PORT"),
+    port=int(os.getenv("DB_PORT")),  # type: ignore  # noqa
     database=os.getenv("DB_NAME"),
     query={"client_encoding": "utf8"},
 )
