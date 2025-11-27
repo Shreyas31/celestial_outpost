@@ -1,17 +1,19 @@
-from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
+from sqlalchemy.orm import Mapped
 
-
-class Base(DeclarativeBase):
-    pass
+from .base import Base
 
 
 class Telescope(Base):
     __tablename__ = "telescope"
 
-    id: Mapped[int] = mapped_column(primary_key=True)
-
-    # Can modify / add more -- this is just a template
-    model: Mapped[str]
-    aperture_size: Mapped[str]
-    is_commercial: Mapped[bool]
-    price_usd: Mapped[str]
+    name: Mapped[str]
+    manufacturer: Mapped[str]
+    aperture: Mapped[int]
+    magnitude: Mapped[float]
+    focuslength: Mapped[int]
+    fieldwidth: Mapped[float]
+    fieldheight: Mapped[float]
+    length: Mapped[int]
+    weight: Mapped[float]
+    purchasable: Mapped[bool]
+    imageurl: Mapped[str]

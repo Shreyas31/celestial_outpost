@@ -1,17 +1,18 @@
-from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
-
-
-class Base(DeclarativeBase):
-    pass
+from sqlalchemy.orm import Mapped
+from .base import Base
 
 
 class User(Base):
     __tablename__ = "user"
 
-    id: Mapped[int] = mapped_column(primary_key=True)
-    firstname: Mapped[str]
     lastname: Mapped[str]
-    birthdate: Mapped[str]
+    firstname: Mapped[str]
+    middlenames: Mapped[str]
+    initials: Mapped[str]
+    email: Mapped[str]
+    institution: Mapped[str]
+    city: Mapped[str]
+    country: Mapped[str]
 
     def get_full_name(self) -> str:
         return f"{self.firstname} {self.lastname}"
