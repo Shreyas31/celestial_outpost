@@ -15,13 +15,12 @@ CREATE TABLE public.star (
     coorddec float,
     color text,
     appmagnitude float,
-    measurefilter text,
-)
-
+    measurefilter text
+);
 
 
 CREATE SEQUENCE public.star_id_seq
-    START WITH 1
+    START WITH 6
     INCREMENT BY 1
     NO MINVALUE
     MAXVALUE 2147483647
@@ -30,7 +29,6 @@ CREATE SEQUENCE public.star_id_seq
 
 ALTER TABLE ONLY public.star
     ADD CONSTRAINT star_pkey PRIMARY KEY (id);
-
 
 
 CREATE INDEX star_id_inx ON public.star USING btree (id);
@@ -52,9 +50,8 @@ CREATE INDEX star_measurefilter_inx ON public.star USING btree (measurefilter);
 
 -- Data
 
-INSERT INTO public.star VALUES (1, '* alf Lyr', 'delSctV*', 279.234734787025, 38.783688956244, 'A0V', 0.029999999329447746, 'V')
-INSERT INTO public.star VALUES (2, '* alf CMa', 'SB*', 101.28715533333335, -16.71611586111111, 'A0mA1Va', -1.4600000381469727, 'V')
-INSERT INTO public.star VALUES (3, '* alf Car', 'Star', 95.98795782918306, -52.69566138386201, 'A9II', -0.7400000095367432, 'V')
-INSERT INTO public.star VALUES (4, '* bet Ori', 'BlueSG', 78.63446706693006, -8.201638364722209, 'B8Ia', 0.12999999523162842, 'V')
-INSERT INTO public.star VALUES (5, '* alf CMi', 'SB*', 114.82549790798149, 5.224987557059477, 'F5IV-V+DQZ', 0.3700000047683716, 'V')
-
+INSERT INTO public.star VALUES (1, '* alf Lyr', 'delSctV*', 279.234734787025, 38.783688956244, 'A0V', 0.029999999329447746, 'V');
+INSERT INTO public.star VALUES (2, '* alf CMa', 'SB*', 101.28715533333335, -16.71611586111111, 'A0mA1Va', -1.4600000381469727, 'V');
+INSERT INTO public.star VALUES (3, '* alf Car', 'Star', 95.98795782918306, -52.69566138386201, 'A9II', -0.7400000095367432, 'V');
+INSERT INTO public.star VALUES (4, '* bet Ori', 'BlueSG', 78.63446706693006, -8.201638364722209, 'B8Ia', 0.12999999523162842, 'V');
+INSERT INTO public.star VALUES (5, '* alf CMi', 'SB*', 114.82549790798149, 5.224987557059477, 'F5IV-V+DQZ', 0.3700000047683716, 'V');
