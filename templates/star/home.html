@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %}Stars{% endblock %}
+
+{% block style %}
+<style>
+  .content {
+    width: 100%;
+    text-align: center;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="content">
+  <h3>Looking for a specific star and its observations?</h3>
+
+  <form action="{{ url_for('star.query_star') }}" method="POST">
+    <label for="starname">Query here:</label>
+    <input name="starname" type="text">
+    <input type="submit">
+  </form>
+</div>
+{% endblock %}

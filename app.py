@@ -24,5 +24,5 @@ engine = create_engine(url)
 
 
 @app.route("/")
-def page_home():
+def home():
     return render_template("home.html")
