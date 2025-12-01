@@ -14,7 +14,9 @@ class Observation(Base):
     userid: Mapped[int] = mapped_column(ForeignKey("user.id"))
     starid: Mapped[int] = mapped_column(ForeignKey("star.id"))
     telescopeid: Mapped[int] = mapped_column(ForeignKey("telescope.id"))
-
+    
+    #relationships
+    
     user: Mapped[User] = relationship(back_populates="observations")
     star: Mapped[Star] = relationship(back_populates="observations")
     telescope: Mapped[Telescope] = relationship(back_populates="observations")

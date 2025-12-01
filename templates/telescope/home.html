@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+
+{% block title %}Telescopes{% endblock %}
+
+{% block style %}
+<style>
+  .content {
+    width: 100%;
+    text-align: center;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+  <h3>Add New Telescope</h3>
+  <form action="{{ url for('add_telescope') }}" method="post">
+    <label for="t_name">name:</label>
+    <input type ="text" id="t_name" name="t_name">
+
+    <label for="t_manufacturer">manufacturer(optional):</label>
+    <input type ="text" id="t_manufacturer" name="t_manufacturer">
+
+    <label for="t_aperture">aperture(optional):</label>
+    <input type ="text" id="t_aperture" name="t_aperture">
+
+    <label for="t_magnitude">magnitude:</label>
+    <input type ="text" id="t_magnitude" name="t_magnitude">
+
+    <label for="t_focuslength">focuslength:</label>
+    <input type ="text" id="t_focuslength" name="t_focuslength">
+
+    <label for="t_fieldwidth">fieldwidth(optional):</label>
+    <input type ="text" id="t_fieldwidth" name="t_fieldwidth">
+
+    <label for="t_fieldheight">fieldheight(optional):</label>
+    <input type ="text" id="t_fieldheight" name="t_fieldheight">    
+
+    <label for="t_length">length(optional):</label>
+    <input type ="text" id="t_length" name="t_length">  
+
+    <label for="t_weight">weight(optional):</label>
+    <input type ="text" id="t_weight" name="t_weight">  
+
+    <label for="t_purchasable">purchasable(optional):</label>
+    <input type ="text" id="t_purchasable" name="t_purchasable">   
+
+    <label for="t_imageurl">imageurl(optional):</label>
+    <input type ="text" id="t_imageurl" name="t_imageurl">   
+    
+    <input type ="submit" value="submit">
+  </form>
+</div>
+
+<div class="container">
+  <h3>Search Telescope</h3>
+  <h5>(through telescope id or name)</h5>
+  <form action="{{ url for('search_telescope') }}" method="post">
+    <label for="t_search_id">id:</label>
+    <input type ="text" id="t_search_id" name="t_search_id">
+
+    <label for="t_search_name">name:</label>
+    <input type ="text" id="t_search_name" name="t_search_name">
+
+    <input type ="submit" value="submit">
+  </form>
+</div>
+
+<div class="content">
+  <h3>Telescope List</h3>
+  <h5>Click to see more information</h5>
+  <ul>
+    {% for t in telescopes}
+      <li>
+        <a href="/telescope/{{t.id}}"><strong>{{t.name}}</strong></a>
+        <small>{{t.manufacturer}}</small>
+        <small>{{t.aperture}}</small>
+        <small>{{t.magnitude}}</small>
+      </li>
+    {% endfor %}
+  </ul>
+</div>
+{% endblock %}

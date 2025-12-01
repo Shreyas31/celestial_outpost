@@ -4,7 +4,6 @@ from typing import Optional
 
 star_bp = Blueprint("star", __name__, url_prefix="/star")
 
-
 @star_bp.route("/")
 def home():
     return render_template("star/home.html")

@@ -6,9 +6,11 @@ from sqlalchemy.engine import URL
 from sqlalchemy.orm import Session, joinedload
 
 from star import star_bp
+from telescope import telescope_db
 
 app = Flask(__name__)
 app.register_blueprint(star_bp)
+app.register_blueprint(telescope_bp)
 
 url = URL.create(
     drivername="postgresql+psycopg2",
@@ -21,7 +23,6 @@ url = URL.create(
 )
 
 engine = create_engine(url)
-
 
 @app.route("/")
 def home():
