@@ -7,19 +7,19 @@
 
 -- User table
 
-CREATE TABLE public.observer (
+CREATE TABLE public.user (
     id integer DEFAULT nextval(('"student_id_seq"'::text)::regclass) NOT NULL,
     lastname text NOT NULL,
-    firstname text,
+    firstname text NOT NULL,
     middlenames text,
     initials text,
-    email text,
+    email text NOT NULL,
     institution text,
-    city text,
-    country text
+    city text NOT NULL,
+    country text NOT NULL
 );
 
-CREATE SEQUENCE public.observer_id_seq
+CREATE SEQUENCE public.user_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -27,28 +27,28 @@ CREATE SEQUENCE public.observer_id_seq
     CACHE 1;
 
 
-ALTER TABLE ONLY public.observer
-    ADD CONSTRAINT observer_pkey PRIMARY KEY (id);
+ALTER TABLE ONLY public.user
+    ADD CONSTRAINT user_pkey PRIMARY KEY (id);
 
 
-CREATE INDEX observer_firstname_inx ON public.observer USING btree (firstname);
+CREATE INDEX user_firstname_inx ON public.user USING btree (firstname);
 
-CREATE INDEX observer_lastname_inx ON public.observer USING btree (lastname);
+CREATE INDEX user_lastname_inx ON public.user USING btree (lastname);
 
-CREATE UNIQUE INDEX observer_email_inx ON public.observer USING btree (email);
+CREATE UNIQUE INDEX user_email_inx ON public.user USING btree (email);
 
-CREATE INDEX observer_institution_inx ON public.observer USING btree (institution);
+CREATE INDEX user_institution_inx ON public.user USING btree (institution);
 
-CREATE INDEX observer_city_inx ON public.observer USING btree (city);
+CREATE INDEX user_city_inx ON public.user USING btree (city);
 
-CREATE INDEX observer_country_inx ON public.observer USING btree (country);
+CREATE INDEX user_country_inx ON public.user USING btree (country);
 
 -- User Data
 -- id, lastname, firstname, middlenames, initials, email, institution, city, country, created
 
-INSERT INTO public.observer VALUES (1, 'Zhu', 'Ziyuan', NULL, 'ZZ', 'oz25@ic.ac.uk', 'Imperial College London', 'London', 'UK');
-INSERT INTO public.observer VALUES (2, 'Raghavan', 'Shreyas', NULL, 'SR', 'sr2025@ic.ac.uk', 'Imperial College London', 'London', 'UK');
-INSERT INTO public.observer VALUES (3, 'Hu', 'Yanglin', NULL, 'YL', 'yl14925@ic.ac.uk', 'Imperial College London', 'London', 'UK');
+INSERT INTO public.user VALUES (1, 'Zhu', 'Ziyuan', NULL, 'ZZ', 'oz25@ic.ac.uk', 'Imperial College London', 'London', 'UK');
+INSERT INTO public.user VALUES (2, 'Raghavan', 'Shreyas', NULL, 'SR', 'sr2025@ic.ac.uk', 'Imperial College London', 'London', 'UK');
+INSERT INTO public.user VALUES (3, 'Hu', 'Yanglin', NULL, 'YL', 'yl14925@ic.ac.uk', 'Imperial College London', 'London', 'UK');
 
 
 -- Telescope table
@@ -97,6 +97,57 @@ INSERT INTO public.telescope VALUES (2, 'ODYSSEY PRO', 'Unistellar', 85, 17.2, 3
 INSERT INTO public.telescope VALUES (3, 'Edge HD', 'Celestron', 279,  14.7, 2800, NULL, NULL, 610, 13.0, true, 'https://www.rothervalleyoptics.co.uk/user/templates/rothervalley-2019/2025bg1.jpg');
 INSERT INTO public.telescope VALUES (4, 'NexStar 8SE', 'Celestron', 204,  14.0, 2032, NULL, NULL, 432, 5.4, true, 'https://www.celestron.com/cdn/shop/files/RS15946_11069_NexStar_8SE_Computerized_Telescope_1-hpr.jpg');
 INSERT INTO public.telescope VALUES (5, 'OMC 200', 'Orion Optics UK', 200,  13.3, 4000, NULL, NULL, 600, 9.0, true, 'https://www.astroshop.eu/Produktbilder/big/57571_1.jpg');
+
+
+-- Star table
+CREATE TABLE public.star (
+    id integer DEFAULT nextval(('"star_id_seq"'::text)::regclass) NOT NULL,
+    starname text not NULL,
+    startype text,
+    coordra float,
+    coorddec float,
+    color text,
+    appmagnitude float,
+    measurefilter text
+);
+
+
+CREATE SEQUENCE public.star_id_seq
+    START WITH 6
+    INCREMENT BY 1
+    NO MINVALUE
+    MAXVALUE 2147483647
+    CACHE 1;
+
+
+ALTER TABLE ONLY public.star
+    ADD CONSTRAINT star_pkey PRIMARY KEY (id);
+
+
+CREATE INDEX star_id_inx ON public.star USING btree (id);
+
+CREATE INDEX star_starname_inx ON public.star USING btree (starname);
+
+CREATE INDEX star_startype_inx ON public.star USING btree (startype);
+
+CREATE INDEX star_coordra_inx ON public.star USING btree (coordra);
+
+CREATE INDEX star_coorddec_inx ON public.star USING btree (coorddec);
+
+CREATE INDEX star_color_inx ON public.star USING btree (color);
+
+CREATE INDEX star_appmagnitude_inx ON public.star USING btree (appmagnitude);
+
+CREATE INDEX star_measurefilter_inx ON public.star USING btree (measurefilter);
+
+
+-- Data
+
+INSERT INTO public.star VALUES (1, '* alf Lyr', 'delSctV*', 279.234734787025, 38.783688956244, 'A0V', 0.029999999329447746, 'V');
+INSERT INTO public.star VALUES (2, '* alf CMa', 'SB*', 101.28715533333335, -16.71611586111111, 'A0mA1Va', -1.4600000381469727, 'V');
+INSERT INTO public.star VALUES (3, '* alf Car', 'Star', 95.98795782918306, -52.69566138386201, 'A9II', -0.7400000095367432, 'V');
+INSERT INTO public.star VALUES (4, '* bet Ori', 'BlueSG', 78.63446706693006, -8.201638364722209, 'B8Ia', 0.12999999523162842, 'V');
+INSERT INTO public.star VALUES (5, '* alf CMi', 'SB*', 114.82549790798149, 5.224987557059477, 'F5IV-V+DQZ', 0.3700000047683716, 'V');
 
 
 -- Observation table
