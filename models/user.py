@@ -1,5 +1,6 @@
-from sqlalchemy.orm import Mapped
-from .base import Base
+from sqlalchemy.orm import Mapped, relationship
+
+from models.base import Base
 
 
 class User(Base):
@@ -13,6 +14,8 @@ class User(Base):
     institution: Mapped[str]
     city: Mapped[str]
     country: Mapped[str]
+
+    observations: Mapped[list["Observation"]] = relationship(back_populates="user")
 
     def get_full_name(self) -> str:
         return f"{self.firstname} {self.lastname}"

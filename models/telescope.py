@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Mapped, relationship
 
-from .base import Base
-from .star import Star
+from models.base import Base
+
 
 class Telescope(Base):
     __tablename__ = "telescope"
@@ -19,11 +19,9 @@ class Telescope(Base):
     imageurl: Mapped[str]
 
     observations: Mapped[list["Observation"]] = relationship(back_populates="telescope")
-    stars: Mapped[list["Star"]] = relationship(
-        "Star",
-        primaryjoin= "Star.appmagnitude < Telescope.magnitude",
-        viewonly=True
-    )
+    # stars: Mapped[list["Star"]] = relationship(
+    #     "Star", primaryjoin="Star.appmagnitude < Telescope.magnitude", viewonly=True
+    # )
 
-    def fullname (self) -> str:
+    def fullname(self) -> str:
         return f"{self.manufacturer} {self.name}"

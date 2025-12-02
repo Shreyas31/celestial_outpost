@@ -1,8 +1,30 @@
 from flask import Blueprint, request, render_template, redirect, url_for
 from astroquery.simbad import Simbad
 from typing import Optional
+from models.star import Star
+
+import os
+from sqlalchemy.engine import URL
+from sqlalchemy.orm import Session
+from sqlalchemy import create_engine, select
 
 star_bp = Blueprint("star", __name__, url_prefix="/star")
+
+url = URL.create(
+    drivername="postgresql+psycopg2",
+    username=os.getenv("DB_USER"),
+    password=os.getenv("DB_PASSWORD"),
+    host=os.getenv("DB_HOST"),
+    port=int(os.getenv("DB_PORT")),  # type: ignore  # noqa
+    database=os.getenv("DB_NAME"),
+    query={"client_encoding": "utf8"},
+)
+
+
+print(url)
+
+engine = create_engine(url)
+
 
 @star_bp.route("/")
 def home():
@@ -39,10 +61,15 @@ def query_star():
 
 @star_bp.route("/<starname>")
 def detail_star(starname: str):
-    # TODO: Query DB and get relevant information to display. If star is not
-    # in DB, lead to a page where that can be shown, and an "add observation"
-    # option is given.
+    with Session(engine) as session:
+        stmt = select(Star).where(Star.starname == starname)
+        star = session.execute(stmt).scalar_one_or_none()
 
-    # TODO: Adjust star/detail.html to show the relevant information.
+        observations = star.observations if star else []
 
-    return render_template("star/detail.html")
+    return render_template(
+        "star/detail.html",
+        starname=starname,
+        star=star,
+        observations=observations,
+    )

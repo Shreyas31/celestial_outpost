@@ -2,8 +2,63 @@
 
 {% block title %}View: {{ starname }}{% endblock %}
 
-{% block style %}{% endblock %}
+{% block style %}
+<style>
+  .content {
+    width: 100%;
+    text-align: center;
+  }
+
+  .content table {
+    margin: 0 auto;
+  }
+</style>
+{% endblock %}
 
 {% block content %}
-<p>Currently a blank page!</p>
+<div class="content">
+  {% if star %}
+    <table>
+      <thead>
+        <tr>
+          <th>Field</th>
+          <th>Value</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Designation</td>
+          <td>{{ star.starname }}</td>
+        </tr>
+        <tr>
+          <td>Type of object</td>
+          <td>{{ star.startype }}</td>
+        </tr>
+        <tr>
+          <td>Coordinates</td>
+          <td>{{ star.coords_text() }}</td>
+        </tr>
+        <tr>
+          <td>Magnitude</td>
+          <td>{{ star.magnitude_text() }}</td>
+        </tr>
+        <tr>
+          <td>Color</td>
+          <td>{{ star.color }}</td>
+        </tr>
+      </tbody>
+    </table>
+    {% for obs in observations %}
+      <p>{{ obs.starid }} {{ obs.userid }}</p>
+    {% endfor %}
+
+  {% else %}
+    <p>There's no observations for {{ starname }} in our database.</p>
+  
+    <p>Would you like to add one?</p>
+  
+    <!-- TODO: Link button to observations page. -->
+    <button>Add an Observation</button> 
+  {% endif %}
+</div>
 {% endblock %}
