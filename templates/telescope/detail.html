@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}View: {{ telescope.name }}{% endblock %}
+
+{% block style %}{% endblock %}
+
+{% block content %}
+<div class="content">
+  <h3>Telescope information</h3>
+  <ul>
+      <li>
+        <small>{{telescope.id}}</small>
+        <small>{{telescope.name}}</small>
+        <small>{{telescope.manufacturer}}</small>
+        <small>{{telescope.aperture}}</small>
+        <small>{{telescope.magnitude}}</small>
+      </li>
+  </ul>
+</div>
+{% endblock %}

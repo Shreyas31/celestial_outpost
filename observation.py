@@ -1,10 +1,10 @@
 import os
 from flask import Flask, Blueprint, render_template, request, redirect, url_for
-from sqlalchemy import create_engine, select
+from sqlalchemy import create_engine, select, desc
 from sqlalchemy.engine import URL
 from sqlalchemy.orm import Session, joinedload
 
-telescope_bp = Blueprint("telescope", __name__, url_prefix="/telescope")
+observation_bp = Blueprint("observation", __name__, url_prefix="/observation")
 
 app = Flask(__name__)
 
@@ -30,22 +30,30 @@ from models.telescope import Telescope
 # routes for human-facing web pages
 # =============================================
 
-# home page for telescope
-@telescope_bp.route("/",methods=["GET","POST"])
+# home page for observation
+@observation_bp.route("/",methods=["GET","POST"])
 def home():
     with Session(engine) as session:
         telescopes = session.execute(
-            select(Telescope)
+            select(Telescope).order_by(desc(Telescope.id).limit(10))
         ).scalars().all()
-    
-    return render_template(
-        "telescope/home.html",
-        telescopes=telescopes,
-        error=request.args.get('error', None)
-    )
+
+    if methods == 
+
+    searchid = int(request.form.get("t_search_id"))
+    searchname = request.form.get("t_search_name")
+
+    with Session(engine) as session:
+        stmt = select(Telescope).where(
+            (Telescope.name == searchname) |
+            (Telescope.id == searchid)
+        )
+        telescope = session.execute(stmt).scalar_one_or_none()
+
+    return render_template("telescope/home.html", telescopes=telescopes, search=None, error=None)
 
 # redirection for adding new telescope
-@telescope_bp.route("/add", methods=["POST"])
+@observation_bp.route("/add", methods=["POST"])
 def get_telescope():
     name = request.form.get("t_name")
     manufacturer = request.form.get("t_name")
@@ -79,7 +87,7 @@ def get_telescope():
         return redirect(url_for("home"))
 
 # searching for telescope
-@telescope_bp.route("/search", methods=["POST"])
+@observation_bp.route("/search", methods=["POST"])
 def search_telescope():
     searchid = int(request.form.get("t_search_id"))
     searchname = request.form.get("t_search_name")
@@ -95,24 +103,6 @@ def search_telescope():
         if telescope:
             return redirect(f"/telescope/{telescope.id}")
         return redirect(url_for("home", error="Not found, Please enter a new telescope."))
-    
-# display information for individual telescope
-@telescope_bp.route("/<int:telescope_id>",methods=["GET","POST"])
-def telescope_information(telescope_id):
-    
-    with Session(engine) as session:
-        telescope = session.execute(
-            select(Telescope).where(
-                (Telescope.id == telescope_id)
-            )
-        ).scalar_one_or_none()
-        
-    if telescope:
-        return render_template("telescope/detail.html", telescope=telescope, error=None)
-    return redirect(url_for("home", error="Not found, Please enter a new telescope."))
-
-
-    
     
 
 
