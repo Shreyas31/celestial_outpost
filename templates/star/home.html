@@ -16,8 +16,8 @@
   <h3>Looking for a specific star and its observations?</h3>
 
   <form action="{{ url_for('star.query_star') }}" method="POST">
-    <label for="starname">Query here:</label>
-    <input name="starname" placeholder="Betelgeuse..." type="text">
+    <label for="f_starname">Query here:</label>
+    <input name="f_starname" id="f_starname" placeholder="Sirius..." type="text">
     <input type="submit">
   </form>
 </div>

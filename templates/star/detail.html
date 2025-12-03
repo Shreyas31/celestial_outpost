@@ -17,7 +17,7 @@
 
 {% block content %}
 <div class="content">
-  {% if star %}
+  {% if star and observations %}
     <table>
       <thead>
         <tr>
@@ -32,7 +32,7 @@
         </tr>
         <tr>
           <td>Type of object</td>
-          <td>{{ star.startype }}</td>
+          <td>{{ startype }}</td>
         </tr>
         <tr>
           <td>Coordinates</td>
@@ -48,16 +48,22 @@
         </tr>
       </tbody>
     </table>
+    <p>TODO: Add observations list here</p>
     {% for obs in observations %}
-      <p>{{ obs.starid }} {{ obs.userid }}</p>
+      <!-- TODO: Add list of observations + details -->
+      <p>starid: {{ obs.starid }} userid: {{ obs.userid }}</p>
     {% endfor %}
 
   {% else %}
-    <p>There's no observations for {{ starname }} in our database.</p>
-  
+    {% if queried_name %}
+      <p>There's no observations for {{ queried_name }} ({{ starname }}) in our database.</p>
+    {% else %}
+      <p>There's no observations for {{ starname }} in our database.</p>
+    {% endif %}
+
     <p>Would you like to add one?</p>
   
-    <!-- TODO: Link button to observations page. -->
+    <!-- TODO: Link button to observations page. Load with star as default -->
     <button>Add an Observation</button> 
   {% endif %}
 </div>
