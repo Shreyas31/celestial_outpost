@@ -1,8 +1,9 @@
 import os
-from flask import Flask, Blueprint, render_template, request, redirect, url_for
+from flask import Flask, Blueprint, render_template, request, redirect, url_for, abort
 from sqlalchemy import create_engine, select
 from sqlalchemy.engine import URL
 from sqlalchemy.orm import Session, joinedload
+from typing import Optional
 
 telescope_bp = Blueprint("telescope", __name__, url_prefix="/telescope")
 
@@ -32,7 +33,7 @@ from models.telescope import Telescope
 
 
 # home page for telescope
-@telescope_bp.route("/", methods=["GET", "POST"])
+@telescope_bp.route("/")
 def home():
     with Session(engine) as session:
         telescopes = session.execute(select(Telescope)).scalars().all()
@@ -40,37 +41,75 @@ def home():
     return render_template(
         "telescope/home.html",
         telescopes=telescopes,
-        error=request.args.get("error", None),
     )
+
+
+def to_int_or_none(value: Optional[str]) -> Optional[int]:
+    if not value:
+        return None
+    try:
+        return int(value)
+    except ValueError:
+        return None
+
+
+def to_float_or_none(value: Optional[str]) -> Optional[float]:
+    if not value:
+        return None
+    try:
+        return float(value)
+    except ValueError:
+        return None
 
 
 # redirection for adding new telescope
 @telescope_bp.route("/add", methods=["POST"])
-def get_telescope():
-    name = request.form.get("t_name")
-    manufacturer = request.form.get("t_name")
-    aperture = request.form.get("t_name")
-    magnitude = request.form.get("t_name")
-    focuslength = request.form.get("t_name")
-    fieldwidth = request.form.get("t_name")
-    fieldheight = request.form.get("t_name")
-    length = request.form.get("t_name")
-    weight = request.form.get("t_name")
-    purchasable = request.form.get("t_name")
-    imageurl = request.form.get("t_name")
+def add_telescope():
+    # NECESSARY FIELDS:
+    name: Optional[str] = request.form.get("f_name")
+    magnitude: Optional[int] = to_int_or_none(request.form.get("f_magnitude"))
+    focuslength: Optional[int] = to_int_or_none(request.form.get("f_focuslength"))
+    purchasable: bool = request.form.get("f_purchasable") is not None
+
+    if not name or not magnitude or not focuslength:
+        missing_params: list[str] = []
+        if not name:
+            missing_params.append("Name")
+        if not magnitude:
+            missing_params.append("Magnitude")
+        if not focuslength:
+            missing_params.append("Focus Length")
+
+        with Session(engine) as session:
+            telescopes = session.execute(select(Telescope)).scalars().all()
+
+        return render_template(
+            "telescope/home.html",
+            telescopes=telescopes,
+            error=f"Invalid form input. Missing or invalid: {', '.join(missing_params)}",
+        )
+
+    # NON-NECESSARY FIELDS
+    manufacturer: Optional[str] = request.form.get("f_manufacturer")
+    aperture: Optional[int] = to_int_or_none(request.form.get("f_aperture"))
+    fieldwidth: Optional[float] = to_float_or_none(request.form.get("f_fieldwidth"))
+    fieldheight: Optional[float] = to_float_or_none(request.form.get("f_fieldheight"))
+    length: Optional[int] = to_int_or_none(request.form.get("f_length"))
+    weight: Optional[float] = to_float_or_none(request.form.get("f_weight"))
+    imageurl: Optional[str] = request.form.get("f_imageurl")
 
     with Session(engine) as session:
         new_telescope = Telescope(
             name=name,
             manufacturer=manufacturer,
+            focuslength=focuslength,
+            purchasable=purchasable,
             aperture=aperture,
             magnitude=magnitude,
-            focuslength=focuslength,
             fieldwidth=fieldwidth,
             fieldheight=fieldheight,
             length=length,
             weight=weight,
-            purchasable=purchasable,
             imageurl=imageurl,
         )
 
@@ -101,14 +140,15 @@ def search_telescope():
 
 
 # display information for individual telescope
-@telescope_bp.route("/<int:telescope_id>", methods=["GET", "POST"])
-def telescope_information(telescope_id):
+@telescope_bp.route("/<int:id>", methods=["GET", "POST"])
+def telescope_information(id):
 
     with Session(engine) as session:
         telescope = session.execute(
-            select(Telescope).where((Telescope.id == telescope_id))
+            select(Telescope).where((Telescope.id == id))
         ).scalar_one_or_none()
 
     if telescope:
-        return render_template("telescope/detail.html", telescope=telescope, error=None)
+        return render_template("telescope/detail.html", telescope=telescope)
+
     return redirect(url_for("home", error="Not found, Please enter a new telescope."))

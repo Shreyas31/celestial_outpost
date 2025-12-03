@@ -14,60 +14,60 @@
 {% block content %}
 
 {% if error %}
-    <h3>{{ error }}</h3>
+  <h3>{{ error }}</h3>
 {% endif %}
 
 <div class="container">
   <h3>Add New Telescope</h3>
-  <form action="{{ url for('add_telescope') }}" method="post">
-    <label for="t_name">name:</label>
-    <input type ="text" id="t_name" name="t_name">
+  <form action="{{ url_for('telescope.add_telescope') }}" method="post">
+    <label for="f_name">Name:</label>
+    <input type="text" id="f_name" name="f_name" required>
 
-    <label for="t_manufacturer">manufacturer(optional):</label>
-    <input type ="text" id="t_manufacturer" name="t_manufacturer">
+    <label for="f_manufacturer">Manufacturer (optional):</label>
+    <input type="text" id="f_manufacturer" name="f_manufacturer">
 
-    <label for="t_aperture">aperture(optional):</label>
-    <input type ="text" id="t_aperture" name="t_aperture">
+    <label for="f_aperture">Aperture (optional):</label>
+    <input type="text" id="f_aperture" name="f_aperture">
 
-    <label for="t_magnitude">magnitude:</label>
-    <input type ="text" id="t_magnitude" name="t_magnitude">
+    <label for="f_magnitude">Magnitude:</label>
+    <input type="text" id="f_magnitude" name="f_magnitude" required>
 
-    <label for="t_focuslength">focuslength:</label>
-    <input type ="text" id="t_focuslength" name="t_focuslength">
+    <label for="f_focuslength">Focuslength:</label>
+    <input type="text" id="f_focuslength" name="f_focuslength" required>
 
-    <label for="t_fieldwidth">fieldwidth(optional):</label>
-    <input type ="text" id="t_fieldwidth" name="t_fieldwidth">
+    <label for="f_fieldwidth">Fieldwidth (optional):</label>
+    <input type="text" id="f_fieldwidth" name="f_fieldwidth">
 
-    <label for="t_fieldheight">fieldheight(optional):</label>
-    <input type ="text" id="t_fieldheight" name="t_fieldheight">    
+    <label for="f_fieldheight">Fieldheight (optional):</label>
+    <input type="text" id="f_fieldheight" name="f_fieldheight">    
 
-    <label for="t_length">length(optional):</label>
-    <input type ="text" id="t_length" name="t_length">  
+    <label for="f_length">Length (optional):</label>
+    <input type="text" id="f_length" name="f_length">  
 
-    <label for="t_weight">weight(optional):</label>
-    <input type ="text" id="t_weight" name="t_weight">  
+    <label for="f_weight">Weight (optional):</label>
+    <input type="text" id="f_weight" name="f_weight">  
 
-    <label for="t_purchasable">purchasable(optional):</label>
-    <input type ="text" id="t_purchasable" name="t_purchasable">   
+    <label for="f_purchasable">Purchasable (optional):</label>
+    <input type="checkbox" id="f_purchasable" name="f_purchasable">   
 
-    <label for="t_imageurl">imageurl(optional):</label>
-    <input type ="text" id="t_imageurl" name="t_imageurl">   
+    <label for="f_imageurl">Imageurl (optional):</label>
+    <input type="text" id="f_imageurl" name="f_imageurl">   
     
-    <input type ="submit" value="submit">
+    <input type="submit" value="submit">
   </form>
 </div>
 
 <div class="container">
   <h3>Search Telescope</h3>
   <h5>(through telescope id or name)</h5>
-  <form action="{{ url for('search_telescope') }}" method="post">
-    <label for="t_search_id">id:</label>
-    <input type ="text" id="t_search_id" name="t_search_id">
+  <form action="{{ url_for('telescope.search_telescope') }}" method="post">
+    <label for="t_search_id">Id:</label>
+    <input type="text" id="t_search_id" name="t_search_id">
 
-    <label for="t_search_name">name:</label>
-    <input type ="text" id="t_search_name" name="t_search_name">
+    <label for="t_search_name">Name:</label>
+    <input type="text" id="t_search_name" name="t_search_name">
 
-    <input type ="submit" value="submit">
+    <input type="submit" value="submit">
   </form>
 </div>
 
@@ -75,9 +75,9 @@
   <h3>Telescope List</h3>
   <h5>Click to see more information</h5>
   <ul>
-    {% for t in telescopes}
+    {% for t in telescopes %}
       <li>
-        <a href="/telescope/{{t.id}}"><strong>{{t.name}}</strong></a>
+        <a href="{{ url_for('telescope.telescope_information', id=t.id )}}"><strong>{{t.name}}</strong></a>
         <small>{{t.manufacturer}}</small>
         <small>{{t.aperture}}</small>
         <small>{{t.magnitude}}</small>
