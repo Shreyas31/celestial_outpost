@@ -8,7 +8,7 @@
 -- User table
 
 CREATE TABLE public.user (
-    id integer DEFAULT nextval(('"student_id_seq"'::text)::regclass) NOT NULL,
+    id integer DEFAULT nextval(('"user_id_seq"'::text)::regclass) NOT NULL,
     lastname text NOT NULL,
     firstname text NOT NULL,
     middlenames text,
@@ -152,7 +152,7 @@ INSERT INTO public.star VALUES (5, '* alf CMi', 'SB*', 114.82549790798149, 5.224
 
 -- Observation table
 CREATE TABLE public.observation (
-    id integer DEFAULT nextval(('"student_id_seq"'::text)::regclass) NOT NULL,
+    id integer DEFAULT nextval(('"observation_id_seq"'::text)::regclass) NOT NULL,
     userid int,
     starid int,
     telescopeid int,
