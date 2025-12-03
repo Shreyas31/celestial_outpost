@@ -48,7 +48,7 @@ CREATE INDEX user_country_inx ON public.user USING btree (country);
 
 INSERT INTO public.user VALUES (1, 'Zhu', 'Ziyuan', NULL, 'ZZ', 'oz25@ic.ac.uk', 'Imperial College London', 'London', 'UK');
 INSERT INTO public.user VALUES (2, 'Raghavan', 'Shreyas', NULL, 'SR', 'sr2025@ic.ac.uk', 'Imperial College London', 'London', 'UK');
-INSERT INTO public.user VALUES (3, 'Hu', 'Yanglin', NULL, 'YL', 'yl14925@ic.ac.uk', 'Imperial College London', 'London', 'UK');
+INSERT INTO public.user VALUES (3, 'Linhu', 'Yangjie', NULL, 'YL', 'yl14925@ic.ac.uk', 'Imperial College London', 'London', 'UK');
 
 
 -- Telescope table

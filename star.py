@@ -110,5 +110,11 @@ def find_existing_or_create_star(common_name: str) -> Optional[int]:
                 appmagnitude=details["app_mag"],
                 measurefilter=details["filter"],
             )
+            try:
+                session.add(star)
+                session.commit()
+
+            except Exception as e:
+                session.rollback()
 
     return star.id

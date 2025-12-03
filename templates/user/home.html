@@ -20,91 +20,91 @@
 
 {% block content %}
 <body>
-    <header>
-        <h1>User Records</h1>
-        <p>Sign up and query user observations in the system.</p>
-    </header>
+  <header>
+    <h1>User Records</h1>
+    <p>Sign up and query user observations in the system.</p>
+  </header>
 
-    {% with messages = get_flashed_messages(with_categories=true) %}
+  {% with messages = get_flashed_messages(with_categories=true) %}
     {% if messages %}
-    <div>
+      <div>
         {% for category, message in messages %}
-        <div class="flash">{{ message }}</div>
+          <div class="flash">{{ message }}</div>
         {% endfor %}
-    </div>
+      </div>
     {% endif %}
-    {% endwith %}
+  {% endwith %}
 
-    <section>
-        <h2>Add New User</h2>
-        <form action="/add" method="POST">
-            <div>
-                <label for="lastname">Last Name</label>
-                <input type="text" id="lastname" name="lastname" required>
-            </div>
-            <div>
-                <label for="firstname">First Name</label>
-                <input type="text" id="firstname" name="firstname" required>
-            </div>
-            <div>
-                <label for="middlenames">Middle Names</label>
-                <input type="text" id="middlenames" name="middlenames">
-            </div>
-            <div>
-                <label for="initials">Initials</label>
-                <input type="text" id="initials" name="initials">
-            </div>
-            <div>
-                <label for="email">Email Address</label>
-                <input type="email" id="email" name="email" required>
-            </div>
-            <div>
-                <label for="institution">Institution</label>
-                <input type="text" id="institution" name="institution">
-            </div>
-            <div>
-                <label for="city">City</label>
-                <input type="text" id="city" name="city" required>
-            </div>
-            <div>
-                <label for="country">Country</label>
-                <input type="text" id="country" name="country" required>
-            </div>
-            <button type="submit">Sign up</button>
-        </form>
-    </section>
-
-    <hr>
-
-    <section>
-        <h2> Query User Observations </h2>
-        <form action="/search" method="POST">
-            <div>
-                <label for="search_email">Enter Email to Search</label>
-                <input type="email" id="search_email" name="search_email" required>
-                <button type="submit">Search</button>
-            </div>
-        </form>
-
-        {% if search_email %}
+  <section>
+    <h2>Add New User</h2>
+      <form action="{{ url_for('user.add_observer') }}" method="POST">
         <div>
-            <h3>Results for "{{ search_email }}"</h3>
-            {% if search_result %}
-            <div>
-                <p><strong>Name:</strong> {{ search_result.firstname }} {{ search_result.lastname }}</p>
-                <p><strong>Email:</strong> {{ search_result.email }}</p>
-                <p><strong>Middle Names:</strong> {{ search_result.middlenames or 'N/A' }}</p>
-                <p><strong>Initials:</strong> {{ search_result.initials or 'N/A' }}</p>
-                <p><strong>Institution:</strong> {{ search_result.institution or 'N/A' }}</p>
-                <p><strong>Location:</strong> {{ search_result.city or 'N/A' }}, {{ search_result.country or 'N/A' }}
-                </p>
-            </div>
-            {% else %}
-            <p>No user found with that email address.</p>
-            {% endif %}
+          <label for="lastname">Last Name:</label>
+          <input type="text" id="lastname" name="lastname" required>
         </div>
-        {% endif %}
-    </section>
+        <div>
+          <label for="firstname">First Name:</label>
+          <input type="text" id="firstname" name="firstname" required>
+        </div>
+        <div>
+          <label for="middlenames">Middle Names (optional):</label>
+          <input type="text" id="middlenames" name="middlenames">
+        </div>
+        <div>
+          <label for="initials">Initials (optional):</label>
+          <input type="text" id="initials" name="initials">
+        </div>
+        <div>
+          <label for="email">Email Address:</label>
+          <input type="email" id="email" name="email" required>
+        </div>
+        <div>
+          <label for="institution">Institution (optional):</label>
+          <input type="text" id="institution" name="institution">
+        </div>
+        <div>
+          <label for="city">City:</label>
+          <input type="text" id="city" name="city" required>
+        </div>
+        <div>
+          <label for="country">Country:</label>
+          <input type="text" id="country" name="country" required>
+        </div>
+        <button type="submit">Sign up</button>
+      </form>
+  </section>
+
+  <hr>
+
+  <section>
+      <h2> Query User Observations </h2>
+      <form action="/search" method="POST">
+          <div>
+              <label for="search_email">Enter Email to Search</label>
+              <input type="email" id="search_email" name="search_email" required>
+              <button type="submit">Search</button>
+          </div>
+      </form>
+
+      {% if search_email %}
+      <div>
+          <h3>Results for "{{ search_email }}"</h3>
+          {% if search_result %}
+          <div>
+              <p><strong>Name:</strong> {{ search_result.firstname }} {{ search_result.lastname }}</p>
+              <p><strong>Email:</strong> {{ search_result.email }}</p>
+              <p><strong>Middle Names:</strong> {{ search_result.middlenames or 'N/A' }}</p>
+              <p><strong>Initials:</strong> {{ search_result.initials or 'N/A' }}</p>
+              <p><strong>Institution:</strong> {{ search_result.institution or 'N/A' }}</p>
+              <p><strong>Location:</strong> {{ search_result.city or 'N/A' }}, {{ search_result.country or 'N/A' }}
+              </p>
+          </div>
+          {% else %}
+          <p>No user found with that email address.</p>
+          {% endif %}
+      </div>
+      {% endif %}
+  </section>
 </body>
 
 </html>

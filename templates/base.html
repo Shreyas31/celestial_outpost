@@ -27,10 +27,10 @@
       <nav class="navbar">
         <!-- Include a logo maybe? -->
         <a href="{{ url_for('home') }}">Home</a>
-        <a href="{{ url_for('star.home') }}">Stars</a>
         <a href="/">Observations</a>
-        <a href="/">Users</a>
-        <a href="/">Telescopes</a>
+        <a href="{{ url_for('star.home') }}">Stars</a>
+        <a href="{{ url_for('user.home') }}">Users</a>
+        <a href="{{ url_for('telescope.home') }}">Telescopes</a>
       </nav>
     </header>
     <main>

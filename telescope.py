@@ -1,13 +1,13 @@
 import os
-from flask import Flask, Blueprint, render_template, request, redirect, url_for, abort
+from flask import Blueprint, render_template, request, redirect, url_for
 from sqlalchemy import create_engine, select
 from sqlalchemy.engine import URL
-from sqlalchemy.orm import Session, joinedload
+from sqlalchemy.orm import Session
 from typing import Optional
 
-telescope_bp = Blueprint("telescope", __name__, url_prefix="/telescope")
+from models.telescope import Telescope
 
-app = Flask(__name__)
+telescope_bp = Blueprint("telescope", __name__, url_prefix="/telescope")
 
 url = URL.create(
     drivername="postgresql+psycopg2",
@@ -21,7 +21,6 @@ url = URL.create(
 
 engine = create_engine(url)
 
-from models.telescope import Telescope
 
 # =============================================
 # helper functions
