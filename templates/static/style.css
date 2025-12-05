@@ -1,0 +1,73 @@
+body {
+    background-color: #333333; /* Dark grey page background */
+    color: #eeeeee; /* Light text for readability */
+    font-family: sans-serif;
+    margin: 0;
+    padding: 20px;
+}
+
+/* Center headers */
+h3, h5 {
+    text-align: center;
+}
+
+/* Container styling */
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Form Styling */
+form {
+    background-color: #444; /* Slightly lighter grey for form area */
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 400px;
+    margin: 0 auto; /* Center form */
+    display: flex;
+    flex-direction: column; /* Stack labels and inputs vertically */
+}
+
+label {
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+input {
+    margin-bottom: 15px;
+    padding: 8px;
+    border: 1px solid #666;
+    border-radius: 4px;
+    background-color: #eee;
+}
+
+input[type="submit"] {
+    background-color: #3667d1;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+    margin-top: 10px;
+    padding: 10px;
+}
+
+input[type="submit"]:hover {
+    background-color: #2950a3;
+}
+
+/* List Styling to remove bullet points and indentation */
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+/* Content Styling */
+.content {
+    color: #eee;
+    background-color: #444;
+    border: 1px solid #555;
+    margin: 15px 0;
+    padding: 15px;
+    border-radius: 5px;
+}
