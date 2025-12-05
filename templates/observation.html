@@ -3,12 +3,7 @@
 {% block title %}Observations{% endblock %}
 
 {% block style %}
-<style>
-  .content {
-    width: 100%;
-    text-align: center;
-  }
-</style>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 {% endblock %}
 
 {% block content %}
@@ -20,26 +15,27 @@
 <div class="container">
   <h3>Add Observation</h3>
   <form action="{{ url_for('observation.add_observation') }}" method="post">
+    
     <label for="obs_email">Email:</label>
-    <input type="text" id="obs_email" name="obs_email">
+    <input type="text" id="obs_email" name="obs_email" required>
 
     <label for="obs_starname">Star name:</label>
-    <input type ="text" id="obs_starname" name="obs_starname">
+    <input type ="text" id="obs_starname" name="obs_starname" required>
 
     <label for="obs_telname">Telescope name:</label>
-    <input type ="text" id="obs_telname" name="obs_telname">
+    <input type ="text" id="obs_telname" name="obs_telname" required>
 
     <label for="obs_city">Observed city:</label>
-    <input type ="text" id="obs_city" name="obs_city">
+    <input type ="text" id="obs_city" name="obs_city" required>
 
     <label for="obs_country">Observed country:</label>
-    <input type ="text" id="obs_country" name="obs_country">
-    
+    <input type ="text" id="obs_country" name="obs_country" required>
+
     <input type ="submit" value="Submit">
   </form>
 </div>
 
-<hr>
+<hr style="border-color: white;">
 
 <div class="container">
   <h3>Observation List</h3>
@@ -47,10 +43,12 @@
   <ul>
     {% for obs in observations %}
       <li>
-        <p>{{ obs.user.firstname }} observed star {{ obs.star.starname }} of apparent magnitude {{ obs.star.appmagnitude }} using telescope {{ obs.telescope.telescopename }} of limiting magnitude {{ obs.telescope.magnitude }} in {{ obs.city }}, {{ obs.country }}.</p><br>
+        <div class="content">
+        <p>{{ obs.user.firstname }} observed star <strong>{{ obs.star.starname }}</strong> of apparent magnitude {{ obs.star.appmagnitude }} using telescope <em>{{ obs.telescope.telescopename }}</em> of limiting magnitude {{ obs.telescope.magnitude }} in {{ obs.city }}, {{ obs.country }}.</p>
+        </div>
       </li>
     {% else %}
-      <p>No observations found.</p>
+      <p style="text-align: center;">No observations found.</p>
     {% endfor %}
   </ul>
 </div>
