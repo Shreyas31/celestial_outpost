@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}Telescopes{% endblock %}
+{% block title %}Observations{% endblock %}
 
 {% block style %}
 <style>
@@ -19,68 +19,38 @@
 
 <div class="container">
   <h3>Add Observation</h3>
-  <form action="{{ url for('add_telescope') }}" method="post">
-    <label for="t_name">name:</label>
-    <input type ="text" id="t_name" name="t_name">
+  <form action="{{ url_for('observation.add_observation') }}" method="post">
+    <label for="obs_email">Email:</label>
+    <input type="text" id="obs_email" name="obs_email">
 
-    <label for="t_manufacturer">manufacturer(optional):</label>
-    <input type ="text" id="t_manufacturer" name="t_manufacturer">
+    <label for="obs_starname">Star name:</label>
+    <input type ="text" id="obs_starname" name="obs_starname">
 
-    <label for="t_aperture">aperture(optional):</label>
-    <input type ="text" id="t_aperture" name="t_aperture">
+    <label for="obs_telname">Telescope name:</label>
+    <input type ="text" id="obs_telname" name="obs_telname">
 
-    <label for="t_magnitude">magnitude:</label>
-    <input type ="text" id="t_magnitude" name="t_magnitude">
+    <label for="obs_city">Observed city:</label>
+    <input type ="text" id="obs_city" name="obs_city">
 
-    <label for="t_focuslength">focuslength:</label>
-    <input type ="text" id="t_focuslength" name="t_focuslength">
-
-    <label for="t_fieldwidth">fieldwidth(optional):</label>
-    <input type ="text" id="t_fieldwidth" name="t_fieldwidth">
-
-    <label for="t_fieldheight">fieldheight(optional):</label>
-    <input type ="text" id="t_fieldheight" name="t_fieldheight">    
-
-    <label for="t_length">length(optional):</label>
-    <input type ="text" id="t_length" name="t_length">  
-
-    <label for="t_weight">weight(optional):</label>
-    <input type ="text" id="t_weight" name="t_weight">  
-
-    <label for="t_purchasable">purchasable(optional):</label>
-    <input type ="text" id="t_purchasable" name="t_purchasable">   
-
-    <label for="t_imageurl">imageurl(optional):</label>
-    <input type ="text" id="t_imageurl" name="t_imageurl">   
+    <label for="obs_country">Observed country:</label>
+    <input type ="text" id="obs_country" name="obs_country">
     
-    <input type ="submit" value="submit">
+    <input type ="submit" value="Submit">
   </form>
 </div>
+
+<hr>
 
 <div class="container">
-  <h3>Search Observation</h3>
-  <form action="{{ url for('search_telescope') }}" method="post">
-    <label for="t_search_id">id:</label>
-    <input type ="text" id="t_search_id" name="t_search_id">
-
-    <label for="t_search_name">name:</label>
-    <input type ="text" id="t_search_name" name="t_search_name">
-
-    <input type ="submit" value="submit">
-  </form>
-</div>
-
-<div class="content">
-  <h3>Telescope List</h3>
+  <h3>Observation List</h3>
   <h5>Click to see more information</h5>
   <ul>
-    {% for t in telescopes}
+    {% for obs in observations %}
       <li>
-        <a href="/telescope/{{t.id}}"><strong>{{t.name}}</strong></a>
-        <small>{{t.manufacturer}}</small>
-        <small>{{t.aperture}}</small>
-        <small>{{t.magnitude}}</small>
+        <p>{{ obs.user.firstname }} observed star {{ obs.star.starname }} of apparent magnitude {{ obs.star.appmagnitude }} using telescope {{ obs.telescope.telescopename }} of limiting magnitude {{ obs.telescope.magnitude }} in {{ obs.city }}, {{ obs.country }}.</p><br>
       </li>
+    {% else %}
+      <p>No observations found.</p>
     {% endfor %}
   </ul>
 </div>
