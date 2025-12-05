@@ -2,19 +2,10 @@
 
 {% block title %}Telescopes{% endblock %}
 
-{% block style %}
-<style>
-  .content {
-    width: 100%;
-    text-align: center;
-  }
-</style>
-{% endblock %}
-
 {% block content %}
 
 {% if error %}
-  <h3>{{ error }}</h3>
+  <div class="error">{{ error }}</div>
 {% endif %}
 
 <div class="container">
@@ -26,25 +17,25 @@
     <label for="f_manufacturer">Manufacturer (optional):</label>
     <input type="text" id="f_manufacturer" name="f_manufacturer">
 
-    <label for="f_aperture">Aperture (optional):</label>
+    <label for="f_aperture">Aperture in inches (optional):</label>
     <input type="text" id="f_aperture" name="f_aperture">
 
     <label for="f_magnitude">Magnitude:</label>
     <input type="text" id="f_magnitude" name="f_magnitude" required>
 
-    <label for="f_focuslength">Focuslength:</label>
+    <label for="f_focuslength">Focal Length in inches:</label>
     <input type="text" id="f_focuslength" name="f_focuslength" required>
 
-    <label for="f_fieldwidth">Fieldwidth (optional):</label>
+    <label for="f_fieldwidth">FOV width in arcminutes (optional):</label>
     <input type="text" id="f_fieldwidth" name="f_fieldwidth">
 
-    <label for="f_fieldheight">Fieldheight (optional):</label>
+    <label for="f_fieldheight">FOV height in arcminutes (optional):</label>
     <input type="text" id="f_fieldheight" name="f_fieldheight">    
 
-    <label for="f_length">Length (optional):</label>
+    <label for="f_length">Length in cm (optional):</label>
     <input type="text" id="f_length" name="f_length">  
 
-    <label for="f_weight">Weight (optional):</label>
+    <label for="f_weight">Weight in kg (optional):</label>
     <input type="text" id="f_weight" name="f_weight">  
 
     <label for="f_purchasable">Purchasable (optional):</label>
@@ -59,19 +50,22 @@
 
 <div class="container">
   <h3>Search Telescope</h3>
-  <h5>(through telescope id or name)</h5>
   <form action="{{ url_for('telescope.search_telescope') }}" method="post">
-    <label for="t_search_id">Id:</label>
-    <input type="text" id="t_search_id" name="t_search_id">
+    <label for="f_search_id">Search by Id:</label>
+    <input type="text" id="f_search_id" name="f_search_id">
 
-    <label for="t_search_name">Name:</label>
-    <input type="text" id="t_search_name" name="t_search_name">
+    <input type="submit" value="submit">
+  </form>
+
+  <form action="{{ url_for('telescope.search_telescope') }}" method="post">
+    <label for="f_search_name">Search by Name:</label>
+    <input type="text" id="f_search_name" name="f_search_name">
 
     <input type="submit" value="submit">
   </form>
 </div>
 
-<div class="content">
+<div class="container">
   <h3>Telescope List</h3>
   <h5>Click to see more information</h5>
   <ul>

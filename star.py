@@ -42,8 +42,9 @@ def query_star():
     starname = query_star_name(queried_name)
 
     if not starname:
-        # TODO: Add "error message" to user for "star not found"
-        return render_template("star/home.html")
+        return render_template(
+            "star/home.html", error="Star queried not found on the SIMBAD database."
+        )
 
     return redirect(
         url_for(

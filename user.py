@@ -41,15 +41,18 @@ def add_observer():
     country = request.form.get("country")
 
     if not lastname or not firstname or not email or not city or not country:
-        flash("Lastname, Firstname, Email, City, and Country are required.", "error")
-        return redirect(url_for("home"))
+        return render_template(
+            "user/home.html",
+            error="Lastname, Firstname, Email, City, and Country are required.",
+        )
 
     with Session(engine) as session:
         stmt = select(User).where(User.email == email)
         existing_user = session.execute(stmt).scalar_one_or_none()
         if existing_user:
-            flash("User with this email already exists.", "error")
-            return redirect(url_for("home"))
+            return render_template(
+                "user/home.html", error="User with this email already exists."
+            )
 
         new_user = User(
             lastname=lastname,
@@ -65,23 +68,35 @@ def add_observer():
         try:
             session.add(new_user)
             session.commit()
-            flash("User added successfully!", "success")
 
         except Exception as e:
             session.rollback()
-            flash(f"Error adding user: {str(e)}", "error")
+            return render_template(
+                "user/home.html", error="Server error in adding user."
+            )
 
-    return redirect(url_for("home"))
+        return redirect(url_for("user.detail_observer", id=new_user.id))
 
 
 @user_bp.route("/search", methods=["POST"])
-def search_observer():
-    email = request.form.get("search_email")
-    user = None
-    if email:
-        with Session(engine) as session:
-            user = session.execute(
-                select(User).filter_by(email=email)
-            ).scalar_one_or_none()
+def search_observer_by_name():
+    name = request.form.get("name")
+    if not name:
+        return render_template("user/home.html", error="No name given to search by.")
 
-    return render_template("user/home.html", search_result=user, search_email=email)
+    with Session(engine) as session:
+        stmt = select(User).where((User.lastname == name))
+        users = session.execute(stmt).scalars().all()
+
+    if not users:
+        return render_template("user/home.html", error="No matching user found.")
+
+    return render_template("user/home.html", user_list=users)
+
+
+@user_bp.route("/<int:id>")
+def detail_observer(id: int):
+    with Session(engine) as session:
+        user = session.get(User, id)
+
+    return render_template("user/detail.html", user=user)

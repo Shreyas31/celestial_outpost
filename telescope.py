@@ -112,42 +112,48 @@ def add_telescope():
             imageurl=imageurl,
         )
 
-        session.add(new_telescope)
-        session.commit()
+        try:
+            session.add(new_telescope)
+            session.commit()
+        except Exception as e:
+            session.rollback()
+            return render_template(
+                "telescope/home.html", error="Server error in adding telescope."
+            )
 
-        return redirect(url_for("home"))
+        return redirect(url_for("telescope.telescope_information", id=new_telescope.id))
 
 
 # searching for telescope
 @telescope_bp.route("/search", methods=["POST"])
 def search_telescope():
-    searchid = int(request.form.get("t_search_id", default=0))
-    searchname = request.form.get("t_search_name")
+    searchid = to_int_or_none(request.form.get("f_search_id"))
+    searchname = request.form.get("f_search_name")
 
     with Session(engine) as session:
         stmt = select(Telescope).where(
-            (Telescope.name == searchname) | (Telescope.id == searchid)
+            (Telescope.id == searchid) | (Telescope.name == searchname)
         )
-
         telescope = session.execute(stmt).scalar_one_or_none()
 
-        if telescope:
-            return redirect(f"/telescope/{telescope.id}")
-        return redirect(
-            url_for("home", error="Not found, Please enter a new telescope.")
-        )
+        if not telescope:
+            return render_template(
+                "telescope/home.html", error="Telescope queried not found."
+            )
+        return redirect(f"/telescope/{telescope.id}")
 
 
 # display information for individual telescope
 @telescope_bp.route("/<int:id>", methods=["GET", "POST"])
 def telescope_information(id):
-
     with Session(engine) as session:
         telescope = session.execute(
             select(Telescope).where((Telescope.id == id))
         ).scalar_one_or_none()
 
-    if telescope:
-        return render_template("telescope/detail.html", telescope=telescope)
+    if not telescope:
+        return render_template(
+            "telescope/home.html", error="Not found, Please enter a new telescope."
+        )
 
-    return redirect(url_for("home", error="Not found, Please enter a new telescope."))
+    return render_template("telescope/detail.html", telescope=telescope)

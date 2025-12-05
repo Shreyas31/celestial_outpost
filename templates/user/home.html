@@ -1,22 +1,6 @@
 {% extends "base.html" %}
 
-{% block head %}
-<head>
-<link rel="stylesheet" href="{{ url_for('static',
-			     filename='style.css') }}">
-</head>
-{% endblock %}
-
 {% block title %}Users{% endblock %}
-
-{% block style %}
-<style>
-  #example {
-    color: red;
-    font-weight: bold;
-  }
-</style>
-{% endblock %}
 
 {% block content %}
 <body>
@@ -25,15 +9,13 @@
     <p>Sign up and query user observations in the system.</p>
   </header>
 
-  {% with messages = get_flashed_messages(with_categories=true) %}
-    {% if messages %}
-      <div>
-        {% for category, message in messages %}
-          <div class="flash">{{ message }}</div>
-        {% endfor %}
-      </div>
-    {% endif %}
-  {% endwith %}
+  {% if error %}
+    <div class="error">{{ error }}</div>
+  {% endif %}
+
+  {% if success %}
+    <div class="success">{{ success }}</div>
+  {% endif %}
 
   <section>
     <h2>Add New User</h2>
@@ -70,44 +52,30 @@
           <label for="country">Country:</label>
           <input type="text" id="country" name="country" required>
         </div>
-        <button type="submit">Sign up</button>
+        <input type="submit" value="Sign up">
       </form>
   </section>
 
   <hr>
 
   <section>
-      <h2> Query User Observations </h2>
-      <form action="/search" method="POST">
-          <div>
-              <label for="search_email">Enter Email to Search</label>
-              <input type="email" id="search_email" name="search_email" required>
-              <button type="submit">Search</button>
-          </div>
-      </form>
-
-      {% if search_email %}
-      <div>
-          <h3>Results for "{{ search_email }}"</h3>
-          {% if search_result %}
-          <div>
-              <p><strong>Name:</strong> {{ search_result.firstname }} {{ search_result.lastname }}</p>
-              <p><strong>Email:</strong> {{ search_result.email }}</p>
-              <p><strong>Middle Names:</strong> {{ search_result.middlenames or 'N/A' }}</p>
-              <p><strong>Initials:</strong> {{ search_result.initials or 'N/A' }}</p>
-              <p><strong>Institution:</strong> {{ search_result.institution or 'N/A' }}</p>
-              <p><strong>Location:</strong> {{ search_result.city or 'N/A' }}, {{ search_result.country or 'N/A' }}
-              </p>
-          </div>
-          {% else %}
-          <p>No user found with that email address.</p>
-          {% endif %}
-      </div>
-      {% endif %}
+    <h2> Query User Observations </h2>
+    <form action="{{ url_for('user.search_observer_by_name') }}" method="POST">
+      <label for="name">Enter Last Name to Search by</label>
+      <input type="text" id="name" name="name" required>
+      <input type="submit" value="submit">
+    </form>
+  {% if user_list %}
+    <h2>Matching Users:</h2>
+    <ul>
+    {% for u in user_list %}
+      <li>
+        <a href="{{ url_for('user.detail_observer', id=u.id )}}"><strong>{{ u.get_full_name() }}</strong></a>
+      </li>
+    {% endfor %}
+    </ul>
+  {% endif %}
   </section>
 </body>
-
-</html>
-
 
 {% endblock %}

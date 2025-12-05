@@ -2,16 +2,11 @@
 
 {% block title %}Stars{% endblock %}
 
-{% block style %}
-<style>
-  .content {
-    width: 100%;
-    text-align: center;
-  }
-</style>
-{% endblock %}
-
 {% block content %}
+{% if error %}
+  <div class="error">{{ error }}</div>
+{% endif %}
+
 <div class="content">
   <h3>Looking for a specific star and its observations?</h3>
 
