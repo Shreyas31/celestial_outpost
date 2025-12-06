@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from flask import Blueprint, render_template, request
+from flask import Blueprint, render_template, request, redirect, url_for
 from sqlalchemy.orm import Session
 from sqlalchemy import select
 from database import engine
@@ -27,7 +27,9 @@ def render_home_page(**kwargs):
 
 @observation_bp.route("/")
 def home():
-    return render_home_page()
+    success_flag = request.args.get("success") == "1"
+
+    return render_home_page(success=success_flag)
 
 
 @observation_bp.route("/add", methods=["POST"])
@@ -103,4 +105,4 @@ def add_observation():
             session.rollback()
             return render_home_page(error=f"Server error in adding observation {e}.")
 
-    return render_home_page(success=True)
+    return redirect(url_for("observation.home", success=1))
