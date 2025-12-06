@@ -1,27 +1,12 @@
-import os
-from typing import Optional
-
-from flask import Blueprint, render_template, request, redirect, url_for, flash
+from flask import Blueprint, render_template, request, redirect, url_for
 from models.user import User
-from sqlalchemy import create_engine, select
-from sqlalchemy.engine import URL
+from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-user_bp = Blueprint("user", __name__, url_prefix="/user")
-
-url = URL.create(
-    drivername="postgresql+psycopg2",
-    username=os.getenv("DB_USER"),
-    password=os.getenv("DB_PASSWORD"),
-    host=os.getenv("DB_HOST"),
-    port=int(os.getenv("DB_PORT")),  # type: ignore  # noqa
-    database=os.getenv("DB_NAME"),
-    query={"client_encoding": "utf8"},
-)
-
-engine = create_engine(url)
-
 from models.user import User
+from database import engine
+
+user_bp = Blueprint("user", __name__, url_prefix="/user")
 
 
 @user_bp.route("/")

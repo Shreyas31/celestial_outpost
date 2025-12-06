@@ -1,26 +1,12 @@
-import os
 from flask import Blueprint, render_template, request, redirect, url_for
-from sqlalchemy import create_engine, select
-from sqlalchemy.engine import URL
+from sqlalchemy import select
 from sqlalchemy.orm import Session
 from typing import Optional
 
 from models.telescope import Telescope
+from database import engine
 
 telescope_bp = Blueprint("telescope", __name__, url_prefix="/telescope")
-
-url = URL.create(
-    drivername="postgresql+psycopg2",
-    username=os.getenv("DB_USER"),
-    password=os.getenv("DB_PASSWORD"),
-    host=os.getenv("DB_HOST"),
-    port=int(os.getenv("DB_PORT")),  # type: ignore  # noqa
-    database=os.getenv("DB_NAME"),
-    query={"client_encoding": "utf8"},
-)
-
-engine = create_engine(url)
-
 
 # =============================================
 # helper functions

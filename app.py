@@ -45,6 +45,6 @@ def home():
 
     picture_of_the_day_NASA: Response = requests.get(url, params=today_date)
     data = picture_of_the_day_NASA.json()
-    image_url = data["url"]
+    # image_url = data.get("url")
 
-    return render_template("home.html", image_url=image_url)
+    return render_template("home.html")
