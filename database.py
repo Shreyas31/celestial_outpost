@@ -1,6 +1,6 @@
 import os
 from sqlalchemy import create_engine
-from sqlalchemy.engine import URL
+# from sqlalchemy.engine import URL
 
 # url = URL.create(
 #     drivername="postgresql+psycopg2",
