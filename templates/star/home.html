@@ -3,17 +3,45 @@
 {% block title %}Stars{% endblock %}
 
 {% block content %}
+<body>
+  <header>
+    <h1>Star Records</h1>
+    <p>Query star observations in the system.</p>
+  </header>
+
 {% if error %}
   <div class="error">{{ error }}</div>
 {% endif %}
 
-<div class="content">
+{% if success %}
+  <div class="success">{{ success }}</div>
+{% endif %}
+
+<div class="container">
   <h3>Looking for a specific star and its observations?</h3>
 
   <form action="{{ url_for('star.query_star') }}" method="POST">
     <label for="f_starname">Query here:</label>
-    <input name="f_starname" id="f_starname" placeholder="Sirius..." type="text">
+    <input name="f_starname" id="f_starname" placeholder="Sirius..." type="text" required>
     <input type="submit">
   </form>
+</div>
+
+<hr>
+
+<div class="container">
+  <h3> Star Observations</h3>
+  <strong>Browse various types of star observations:</strong>
+  <p>
+    {% for i in range(stars|length) %}
+    <ul>
+      <li>
+        <div class="content">
+          {{ stars[i].name }} was observed by <strong>{{counts[i]}}</strong> observers.
+        </div>
+      </li>
+    </ul>
+    {% endfor %}
+  </p>
 </div>
 {% endblock %}
