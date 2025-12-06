@@ -29,7 +29,8 @@ def render_home_page(**kwargs):
         users.append(u)
         counts.append(c)
 
-    # Get the most recent 5 observations for each user
+    # Get the most recent 5 observations for each user.
+    # TODO: Remove duplicate stars from consecutive observations.
     observed_stars = []
     with Session(engine) as session:
         for user in users:
@@ -114,7 +115,7 @@ def search_observer_by_name():
     if not users:
         return render_home_page(error="No matching user found.")
 
-    return render_template("user/home.html", user_list=users)
+    return render_home_page(user_list=users)
 
 
 @user_bp.route("/<int:id>")
@@ -122,4 +123,21 @@ def detail_observer(id: int):
     with Session(engine) as session:
         user = session.get(User, id)
 
-    return render_template("user/detail.html", user=user)
+    if not user:
+        return render_home_page(error="No user exists for given ID.")
+
+    # Get all observations made by this user
+    stmt = (
+        select(Observation)
+        .where(Observation.user == user)
+        .order_by(Observation.time.desc())
+        .limit(50)
+    )
+    with Session(engine) as session:
+        observations = session.execute(stmt).scalars().all()
+
+    return render_template(
+        "user/detail.html",
+        user=user,
+        observations=observations,
+    )

@@ -4,6 +4,7 @@ from sqlalchemy.orm import Session
 from typing import Optional
 
 from models.telescope import Telescope
+from models.observation import Observation
 from database import engine
 
 telescope_bp = Blueprint("telescope", __name__, url_prefix="/telescope")
@@ -28,7 +29,7 @@ def to_float_or_none(value: Optional[str]) -> Optional[float]:
 
 
 def render_home_page(**kwargs):
-    stmt = select(Telescope).limit(24)
+    stmt = select(Telescope).limit(25)
     with Session(engine) as session:
         telescopes = session.execute(stmt).scalars().all()
 
@@ -122,12 +123,25 @@ def search_telescope():
 # display information for individual telescope
 @telescope_bp.route("/<int:id>")
 def detail_telescope(id):
+    stmt = select(Telescope).where(Telescope.id == id)
     with Session(engine) as session:
-        telescope = session.execute(
-            select(Telescope).where((Telescope.id == id))
-        ).scalar_one_or_none()
+        telescope = session.execute(stmt).scalar_one_or_none()
 
     if not telescope:
         return render_home_page(error="Telescope id not found.")
 
-    return render_template("telescope/detail.html", telescope=telescope)
+    # Get recent 50 observations made using this telescope
+    stmt = (
+        select(Observation)
+        .where(Observation.telescope == telescope)
+        .order_by(Observation.time.desc())
+        .limit(50)
+    )
+    with Session(engine) as session:
+        observations = session.execute(stmt).scalars().all()
+
+    return render_template(
+        "telescope/detail.html",
+        telescope=telescope,
+        observations=observations,
+    )
