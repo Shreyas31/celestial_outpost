@@ -8,19 +8,17 @@ from flask import Flask, render_template
 from star import star_bp
 from telescope import telescope_bp
 from user import user_bp
-
-# from observation import observation_bp
+from observation import observation_bp
 
 app = Flask(__name__)
 app.register_blueprint(star_bp)
 app.register_blueprint(telescope_bp)
 app.register_blueprint(user_bp)
-# app.register_blueprint(observation_bp)
+app.register_blueprint(observation_bp)
 
 
 @app.route("/", methods=["GET", "POST"])
 def home():
-
     url: str = "https://api.nasa.gov/planetary/apod"
 
     today_date: dict = {

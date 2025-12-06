@@ -28,7 +28,7 @@
       <nav class="navbar">
         <!-- Include a logo maybe? -->
         <a href="{{ url_for('home') }}">Home</a>
-        <a href="/">Observations</a>
+        <a href="{{ url_for('observation.home') }}">Observations</a>
         <a href="{{ url_for('star.home') }}">Stars</a>
         <a href="{{ url_for('user.home') }}">Users</a>
         <a href="{{ url_for('telescope.home') }}">Telescopes</a>
