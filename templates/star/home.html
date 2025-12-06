@@ -37,7 +37,7 @@
     <ul>
       <li>
         <div class="content">
-          <!--<img src="" alt="" srcset="">-->
+          <img src="{{ url_for('static', filename='images/' ~ images[i]) }}" alt="{{ images[i] }}" srcset="">
           </div>
           {{ stars[i].name }} with <strong>{{stars[i].appmagnitude}}</strong> was observed by <strong>{{counts[i]}}</strong> observers.
         </div>

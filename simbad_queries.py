@@ -8,6 +8,7 @@ from astroquery.simbad import Simbad
 ### OBJECT TYPES
 otype_to_label: dict[str, str] = {}
 label_to_desc: dict[str, str] = {}
+label_to_img: dict[str, str] = {}
 
 with open("object_types.csv", "r") as f:
     f.readline()  # Remove headers
@@ -15,9 +16,10 @@ with open("object_types.csv", "r") as f:
     reader = csv.reader(f)
 
     for line in reader:
-        key, label, desc = line
+        key, label, desc, img_url = line
         otype_to_label[key] = label
         label_to_desc[label] = desc
+        label_to_img[label] = img_url
 
 
 ### SIMBAD QUERIES
@@ -88,8 +90,16 @@ def query_star_details(object_name: str) -> dict[str, Any]:
     return star_data
 
 
+# HELPER FUNCTIONS
 def get_full_type_description(object_type: Optional[str]) -> Optional[str]:
     if object_type is None:
         return None
 
     return label_to_desc.get(object_type)
+
+
+def get_image_url(object_type: Optional[str]) -> str:
+    if object_type is None:
+        return "unknown.png"
+
+    return label_to_img.get(object_type, "unknown.png")

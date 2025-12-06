@@ -1,6 +1,6 @@
 from flask import Blueprint, request, render_template, redirect, url_for
 from sqlalchemy.orm import Session
-from sqlalchemy import select
+from sqlalchemy import select, func, desc
 
 from models.star import Star
 from models.observation import Observation
@@ -9,19 +9,40 @@ from database import engine
 from simbad_queries import (
     query_star_name,
     get_full_type_description,
+    get_image_url,
 )
 
 star_bp = Blueprint("star", __name__, url_prefix="/star")
 
 
 def render_home_page(**kwargs):
-    stmt = select(Star).limit(25)
+    stmt = (
+        select(Star, func.count(Observation.id).label("obs_count"))
+        .join(Observation)
+        .group_by(Star.id)
+        .order_by(desc("obs_count"))
+        .limit(25)
+    )
+
     with Session(engine) as session:
-        stars = session.execute(stmt).scalars().all()
+        results = session.execute(stmt).all()
+
+    stars: list[Star] = []
+    counts: list[int] = []
+
+    for s, c in results:
+        stars.append(s)
+        counts.append(c)
+
+    images: list[str] = []
+    for star in stars:
+        images.append(get_image_url(star.startype))
 
     return render_template(
         "star/home.html",
         stars=stars,
+        counts=counts,
+        images=images,
         **kwargs,
     )
 
