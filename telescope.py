@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, redirect, url_for
-from sqlalchemy import select
+from sqlalchemy import select, func, desc
 from sqlalchemy.orm import Session
 from typing import Optional
 
@@ -29,13 +29,27 @@ def to_float_or_none(value: Optional[str]) -> Optional[float]:
 
 
 def render_home_page(**kwargs):
-    stmt = select(Telescope).limit(25)
+    stmt = (
+        select(Telescope, func.count(Observation.id).label("obs_count"))
+        .join(Observation)
+        .group_by(Telescope.id)
+        .order_by(desc("obs_count"))
+        .limit(25)
+    )
     with Session(engine) as session:
-        telescopes = session.execute(stmt).scalars().all()
+        results = session.execute(stmt).all()
+
+    telescopes: list[Telescope] = []
+    counts: list[int] = []
+
+    for t, c in results:
+        telescopes.append(t)
+        counts.append(c)
 
     return render_template(
         "telescope/home.html",
         telescopes=telescopes,
+        counts=counts,
         **kwargs,
     )
 
