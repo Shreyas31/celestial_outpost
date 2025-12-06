@@ -4,10 +4,6 @@ from datetime import datetime
 
 from models.base import Base
 
-# from models.user import User
-# from models.star import Star
-# from models.telescope import Telescope
-
 
 class Observation(Base):
     __tablename__ = "observation"
@@ -18,9 +14,17 @@ class Observation(Base):
 
     # relationships
 
-    user: Mapped["User"] = relationship(back_populates="observations")
-    star: Mapped["Star"] = relationship(back_populates="observations")
-    telescope: Mapped["Telescope"] = relationship(back_populates="observations")
+    user: Mapped["User"] = relationship(
+        back_populates="observations",
+        lazy="joined",
+    )
+    star: Mapped["Star"] = relationship(
+        back_populates="observations",
+        lazy="joined",
+    )
+    telescope: Mapped["Telescope"] = relationship(
+        back_populates="observations", lazy="joined"
+    )
 
     time: Mapped[datetime]
     city: Mapped[str]

@@ -1,6 +1,7 @@
 import csv
-from typing import Optional
+from typing import Optional, Any
 
+from numpy import floating
 from astroquery.simbad import Simbad
 
 
@@ -36,7 +37,7 @@ def query_star_name(common_name: str) -> Optional[str]:
     return q["main_id"][0]
 
 
-def query_star_details(object_name: str) -> dict[str, str]:
+def query_star_details(object_name: str) -> dict[str, Any]:
     """
     Given the name of an object, returns its details as a dict of
     strings. Currently, this includes:
@@ -55,7 +56,7 @@ def query_star_details(object_name: str) -> dict[str, str]:
     simbad.add_votable_fields("sp_type", "allfluxes", "otype")
     q = simbad.query_object(object_name)
 
-    star_data: dict[str, str] = {}
+    star_data: dict[str, Any] = {}
 
     if not q:
         raise ValueError(f"{object_name} does not match any query on Simbad.")
@@ -78,6 +79,11 @@ def query_star_details(object_name: str) -> dict[str, str]:
             star_data["app_mag"] = q[filter][0]
             star_data["filter"] = filter
             break
+
+    # Cast numpy values to float
+    for k, v in star_data.items():
+        if isinstance(v, floating):
+            star_data[k] = float(v)
 
     return star_data
 

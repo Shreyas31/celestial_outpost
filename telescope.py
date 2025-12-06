@@ -57,15 +57,15 @@ def add_telescope():
     focuslength: Optional[int] = to_int_or_none(request.form.get("f_focuslength"))
     purchasable: bool = request.form.get("f_purchasable") is not None
 
-    if not name or not magnitude or not focuslength:
-        missing_params: list[str] = []
-        if not name:
-            missing_params.append("Name")
-        if not magnitude:
-            missing_params.append("Magnitude")
-        if not focuslength:
-            missing_params.append("Focus Length")
+    missing_params: list[str] = []
+    if not name:
+        missing_params.append("Name")
+    if not magnitude:
+        missing_params.append("Magnitude")
+    if not focuslength:
+        missing_params.append("Focus Length")
 
+    if missing_params:
         with Session(engine) as session:
             telescopes = session.execute(select(Telescope)).scalars().all()
 
