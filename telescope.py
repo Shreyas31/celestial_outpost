@@ -9,24 +9,8 @@ from database import engine
 telescope_bp = Blueprint("telescope", __name__, url_prefix="/telescope")
 
 # =============================================
-# helper functions
+# Helper functions
 # =============================================
-
-# =============================================
-# routes for human-facing web pages
-# =============================================
-
-
-# home page for telescope
-@telescope_bp.route("/")
-def home():
-    with Session(engine) as session:
-        telescopes = session.execute(select(Telescope)).scalars().all()
-
-    return render_template(
-        "telescope/home.html",
-        telescopes=telescopes,
-    )
 
 
 def to_int_or_none(value: Optional[str]) -> Optional[int]:
@@ -45,6 +29,23 @@ def to_float_or_none(value: Optional[str]) -> Optional[float]:
         return float(value)
     except ValueError:
         return None
+
+
+# =============================================
+# Routes
+# =============================================
+
+
+# home page for telescope
+@telescope_bp.route("/")
+def home():
+    with Session(engine) as session:
+        telescopes = session.execute(select(Telescope)).scalars().all()
+
+    return render_template(
+        "telescope/home.html",
+        telescopes=telescopes,
+    )
 
 
 # redirection for adding new telescope

@@ -1,9 +1,4 @@
-import os
-
-from flask import Flask, render_template, request
-from sqlalchemy import create_engine, select, delete
-from sqlalchemy.engine import URL
-from sqlalchemy.orm import Session, joinedload
+from flask import Flask, render_template
 from datetime import date
 import requests
 from requests import Response
@@ -20,18 +15,6 @@ app.register_blueprint(telescope_bp)
 app.register_blueprint(user_bp)
 # app.register_blueprint(observation_bp)
 
-url = URL.create(
-    drivername="postgresql+psycopg2",
-    username=os.getenv("DB_USER"),
-    password=os.getenv("DB_PASSWORD"),
-    host=os.getenv("DB_HOST"),
-    port=int(os.getenv("DB_PORT")),  # type: ignore  # noqa
-    database=os.getenv("DB_NAME"),
-    query={"client_encoding": "utf8"},
-)
-
-engine = create_engine(url)
-
 
 @app.route("/", methods=["GET", "POST"])
 def home():
@@ -44,7 +27,7 @@ def home():
     }
 
     picture_of_the_day_NASA: Response = requests.get(url, params=today_date)
-    data = picture_of_the_day_NASA.json()
-    # image_url = data.get("url")
+    data: dict = picture_of_the_day_NASA.json()
+    image_url = data.get("url")
 
-    return render_template("home.html")
+    return render_template("home.html", image_url)
