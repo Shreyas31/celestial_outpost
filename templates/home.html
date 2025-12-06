@@ -1,80 +1,177 @@
 {% extends "base.html" %}
 
-{% block title %}Example Title{% endblock %}
+{% block title %}Celestrial Outpost{% endblock %}
 
 {% block style %}
 <style>
-  body {
+  main {
     margin: 0;
-    height: 100vh;
-    background-image: url("{{image_url}}");
-    background-size: cover;
+    width: 100%;
+    height: 95vh;
+    background-image: url("https://cdn.mos.cms.futurecdn.net/9aBvQFhJeqkxZwuFU2TSyd-1200-80.jpg");
+    background-size: 100%;
     background-position: center;
     background-repeat: no-repeat;
+    color: black;
 
-    animation: bgZoom 10s forwards;
+    animation: bgZoom 10s infinite;
 
     display: flex;
     justify-content: center;
     align-items: center;
 
   }
-  @keyframes bgZoom {
-      from { background-size: cover; }
-      to   { background-size: 150%; }
-  }
 
-  .serif-black {
-      font-family: 'Noto Serif SC', serif;
-      font-weight: 900;
-  }
-  .sans {
-      font-family: 'Noto Sans SC', sans-serif;
-      font-weight: 400;
+  @keyframes bgZoom {
+    0% {
+      background-size: 100%;
+    }
+    99% {
+      background-size: 150%;
+    }
+    100% {
+      background-size: 100%;
+    }
   }
 
   .home_container {
-    width: 80%;
-    height: 90%;
+    width: 100%;
+    height: 100%;
     display: grid;
-    grid-template-rows: 1fr 1fr; /* one column, two rows */
+    grid-template-rows: 1fr 5fr 2fr 4fr 1fr;
   }
 
-  .home_toprow{
-    width: 90%;
-    height: 70%;
+  .home_top{
     display: grid;
-    grid-template-rows: 60fr 40fr; /* one column, two rows */
+    grid-template-rows: 3fr 2fr 1fr;
   }
-
-  .home_toprow_toprow{
-    width: 90%;
-    height: 70%;
+  .row-1 {
     display: flex;
     justify-content: center;
-    align-items: center
+    align-items: center;
+    padding: 0px;
   }
-
-  .home_toprow_bottomrow{
-    width: 90%;
-    height: 70%;
-    display: flex;
-    justify-content: center;
-    align-items: center
-  }
-
-  .serif-black {
+  .row-1 h1 {
+    font-size: 80px;
     font-family: 'Noto Serif SC', serif;
-    font-size: 900;
+    font-weight: 900;
+    color: white;
+    line-height: 1;
+  }
+  .row-2 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-left: 15%;
+    padding-right: 15%;
+  }
+  .row-2 p {
+    font-family: 'Noto Sans SC', sans-serif;
+    font-weight: 400;
+    text-align: center;
+    font-size: 18px;
+    color: white;
+  }
+  .row-3 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-left: 12%;
+    padding-right: 12%;
+    padding: 0px;
+  }
+  .row-3 a {
+    text-align: center;
+    font-size: 30px;
+    color: white;
+    font-family: 'Noto Serif SC', serif;
+    font-weight: 900;
+    text-decoration: none;
+    line-height: 1;
+  }
+  .row-3 a:hover {
+    text-decoration: underline;
   }
 
 
-
-
-  .home_bottomrow {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr; /* three equal columns */
+  .home_bottom {
+    display: grid;
+    grid-template-columns: 2fr 3fr 3fr 3fr 2fr; /* three equal columns */
   }
+  .col-1 {
+    display: grid;
+    grid-template-rows: 3fr 2fr 6fr 2fr;
+  }
+  .col-2 {
+    display: grid;
+    grid-template-rows: 3fr 2fr 6fr 2fr;
+  }
+  .col-3 {
+    display: grid;
+    grid-template-rows: 3fr 2fr 6fr 2fr;
+  }
+
+  .col-number {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0px;
+  }
+  .col-title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0px;
+  }
+  .col-text {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-left: 10%;
+    padding-right: 10%;
+  }
+  .col-link {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .col-number h2 {
+    font-size: 30px;
+    font-family: 'Noto Serif SC', serif;
+    font-weight: 900;
+    color: white;
+    text-align: center;
+    line-height: 0.5;
+  }
+  .col-title h2 {
+    font-size: 26px;
+    font-family: 'Noto Serif SC', serif;
+    font-weight: 900;
+    color: white;
+    text-align: center;
+    line-height: 0.5;
+  }
+  .col-text p {
+    font-size: 14px;
+    font-family: 'Noto Sans SC', sans-serif;
+    font-weight: 400;
+    color: white;
+    text-align: center;
+  }
+  .col-link a {
+    text-align: center;
+    font-size: 14px;
+    color: white;
+    font-family: 'Noto Serif SC', serif;
+    font-weight: 900;
+    text-decoration: none;
+    line-height: 1;
+  }
+  .col-link a:hover {
+    text-decoration: underline;
+  }
+
 
 </style>
 {% endblock %}
@@ -83,22 +180,72 @@
 
   <div class="home_container">
 
-      <div class="home_toprow">
-        <div class="home_toprow_title">
-          <h1.
+      <div></div>
 
-        </div>
-        <div class="home_toprow_description">
-          
-        </div>
-
+      <div class="home_top">
+          <div class="row-1">
+            <h1>Celestrial Outpost</h1>
+          </div>
+          <div class="row-2">
+            <p>Welcome to Celestrial Outpost, a gathering place for wanderers of the night sky. <br> Here, every telescope becomes a compass, every observation a spark, and every stargazer a fellow traveler on the same cosmic trail.
+              A shared frontier where beginners and veterans alike chart their sightings, trace shifting constellations, compare cosmic notes, and add their voice to a growing constellation of explorers.
+            </p>
+          </div>
+          <div class="row-3">
+            <a href="{{ url_for('observation.home') }}"> Click me to capture your cosmic moments with us! </a>
+          </div>
       </div>
 
-      <div class="home_bottomrow">
-          <div class="col-1"></div>
-          <div class="col-2"></div>
-          <div class="col-3"></div>
+      <div></div>
+
+      <div class="home_bottom">
+          <div></div>
+          <div class="col-1">
+            <div class="col-number">
+              <h2>01</h2>
+            </div>
+            <div class="col-title">
+              <h2>Stargazer</h2>
+            </div>
+            <div class="col-text">
+              <p>Log in with your information to join our Stargazer Community—connect with fellow explorers, meet our Community Champions, and access the full history of Stargazer observations.</p>
+            </div>
+            <div class="col-link">
+              <a href="{{ url_for('user.home') }}">Click me!</a>
+            </div>
+          </div>
+          <div class="col-2">
+            <div class="col-number">
+              <h2>02</h2>
+            </div>
+            <div class="col-title">
+              <h2>Telescope</h2>
+            </div>
+            <div class="col-text">
+              <p>Dive into our comprehensive telescope records, examine how each instrument performs, and find out which telescopes can reveal an even richer field of stars waiting to be discovered.</p>
+            </div>
+            <div class="col-link">
+              <a href="{{ url_for('telescope.home') }}">Click me!</a>
+            </div>
+          </div>
+          <div class="col-3">
+            <div class="col-number">
+              <h2>03</h2>
+            </div>
+            <div class="col-title">
+              <h2>Stars</h2>
+            </div>
+            <div class="col-text">
+              <p>Our star database is dynamically linked to the full SIMBAD catalog, giving you immediate access to rich astronomical data. Click to discover which stars our community has observed and step into their cosmic story.</p>
+            </div>
+            <div class="col-link">
+              <a href="{{ url_for('star.home') }}">Click me!</a>
+            </div>
+          </div>
+          <div></div>
       </div>
+
+      <div></div>
 
   </div>
 

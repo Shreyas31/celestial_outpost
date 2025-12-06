@@ -1,0 +1,157 @@
+{% extends "base.html" %}
+
+{% block title %}{% endblock %}
+
+{% block style %}
+<style>
+  main {
+    margin: 0;
+    width: 100vw;
+    height: 100vh;
+    background-image: url("https://assets.science.nasa.gov/dynamicimage/assets/science/missions/webb/science/2025/11/STScI-01K34EC16CKMDAPB54D4SWQ79V.png?w=1021&h=773&fit=crop&crop=faces%2Cfocalpoint");
+    background-size: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    color: black;
+
+    animation: bgZoom 10s infinite;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  @keyframes bgZoom {
+    0% {
+      background-size: 100%;
+    }
+    99% {
+      background-size: 150%;
+    }
+    100% {
+      background-size: 100%;
+    }
+  }
+
+  .home_container {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    border: 5px solid white;
+  }
+
+  .home_toprow{
+    display: grid;
+    grid-template-rows: 50fr 40fr 10fr;
+    border: 5px solid blue;
+  }
+
+  .home_toprow_toprow{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 5px solid green;
+  }
+  .home_serif h1 {
+    font-family: 'Noto Serif SC', serif;
+    font-weight: 900;
+    flex: 1;
+  }
+
+  .home_toprow_midrow{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 5px solid yellow;
+  }
+  .home_toprow_midrow_content {
+    font-family: 'Noto Sans SC', sans-serif;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 1.5;
+    flex: 1;
+    height: 100%
+  }
+
+  .home_toprow_bottomrow{
+    display: flex;
+    justify-content: center;
+    align-items: center
+  }
+  .home_toprow_bottomrow_content {
+    font-family: 'Noto Sans SC', sans-serif;
+    font-weight: 400;
+    font-size: 32px;
+    line-height: 1.5;
+    flex: 1;
+    height: 100%
+  }
+
+  .home_bottomrow {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr; /* three equal columns */
+      border: 5px solid red;
+  }
+
+  .col-1 {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr; /* three equal columns */
+    border: 5px solid red;
+  }
+  .col-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr; /* three equal columns */
+    border: 5px solid red;
+  }
+  .col-3 {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr; /* three equal columns */
+    border: 5px solid red;
+  }
+
+</style>
+{% endblock %}
+
+{% block content %}
+
+  <div class="home_container">
+      <div class="home_toprow">
+
+        <div class="home_toprow_toprow">
+          <h1 class="home_serif">
+            Celestrial Outpost
+          </h1>
+        </div>
+
+        <div class="home_toprow_midrow">
+          <div class="home_toprow_midrow_content">
+            <p>Welcome to Celestrial Outpost, a gathering place for wanderers of the night sky.</p>
+            <p>Here, every telescope becomes a compass, every observation a spark, and every stargazer a fellow traveler on the same cosmic trail.
+              A shared frontier where beginners and veterans alike chart their sightings, trace shifting constellations, compare cosmic notes, and add their voice to a growing constellation of explorers.
+            </p>
+          </div>
+        </div>
+
+        <div class="home_toprow_bottomrow">
+          <div class="home_toprow_bottomrow_content">
+            <p>Capture your cosmic moments with us!</p>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="home_bottomrow">
+          <div class="col-1">
+            <p>dawd</p>
+          </div>
+          <div class="col-2">
+            <p>dawd</p>
+          </div>
+          <div class="col-3">
+            <p>dawd</p>
+          </div>
+      </div>
+  </div>
+
+{% endblock %}

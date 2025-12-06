@@ -1,9 +1,8 @@
 body {
-    background-color: #333333; /* Dark grey page background */
+    background-color: rgb(0, 0, 0); /* Dark grey page background */
     color: #eeeeee; /* Light text for readability */
-    font-family: sans-serif;
     margin: 0;
-    padding: 20px;
+    padding: 0px;
 }
 
 /* Center headers */

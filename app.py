@@ -23,7 +23,7 @@ def home():
 
     today_date: dict = {
         "date": date.today().strftime("%Y-%m-%d"),
-        "api_key": "DEMO_KEY",
+        "api_key": "wEBGgaS95dGL6qtXFfHE6q4ViVALH7DIE48lJbNb",
     }
 
     picture_of_the_day_NASA: Response = requests.get(url, params=today_date)
