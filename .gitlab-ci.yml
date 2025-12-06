@@ -20,7 +20,7 @@ deploy-to-impaas:
   before_script:
     - apt-get update
     - apt-get install -y curl
-    - curl -fsSL "https:/tsuru.io/get" | bash
+    - curl -fsSL "https://tsuru.io/get" | bash
     - export TSURU_TOKEN="$IMPAAS_DEPLOY_TOKEN"
     - tsuru env-set PG_URL="$PG_URL" -a "$APP_NAME"
     - tsuru target add impaas "$TSURU_TARGET" -s
