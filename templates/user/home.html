@@ -81,16 +81,20 @@
 
   <div class="container">
     <h3>User Observations Leaderboard</h3>
-    <div class="content">
       <strong>Top 50 Observers:</strong>
       <p>
       {% for i in range(users|length) %}
-        {{ users[i].firstname }} observed <strong>{{ counts[i] }}</strong> stars including
-        {% for star in observed_stars[i] %}
-          {{ star.starname }}
-        {% endfor %}
+      <ul>
+        <li>
+          <div class="content">
+            {{ users[i].firstname }} observed <strong>{{ counts[i] }}</strong> stars including
+            {% for star in observed_stars[i] %}
+              {{ star.starname }}
+            {% endfor %}
+          </div>
+        </li>
+      </ul>
       {% endfor %}
       </p>
-    </div>
   </div>
   {% endblock %}
