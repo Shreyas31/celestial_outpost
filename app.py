@@ -1,7 +1,9 @@
-from flask import Flask, render_template
-from datetime import date
 import requests
 from requests import Response
+from datetime import date
+from typing import Optional
+
+from flask import Flask, render_template
 
 from star import star_bp
 from telescope import telescope_bp
@@ -28,6 +30,6 @@ def home():
 
     picture_of_the_day_NASA: Response = requests.get(url, params=today_date)
     data: dict = picture_of_the_day_NASA.json()
-    image_url = data.get("url")
+    image_url: Optional[str] = data.get("url")
 
-    return render_template("home.html", image_url)
+    return render_template("home.html", image_url=image_url)
