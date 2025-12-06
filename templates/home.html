@@ -4,15 +4,102 @@
 
 {% block style %}
 <style>
-  #example {
-    color: red;
-    font-weight: bold;
+  body {
+    margin: 0;
+    height: 100vh;
+    background-image: url("{{image_url}}");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    animation: bgZoom 10s forwards;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
   }
+  @keyframes bgZoom {
+      from { background-size: cover; }
+      to   { background-size: 150%; }
+  }
+
+  .serif-black {
+      font-family: 'Noto Serif SC', serif;
+      font-weight: 900;
+  }
+  .sans {
+      font-family: 'Noto Sans SC', sans-serif;
+      font-weight: 400;
+  }
+
+  .home_container {
+    width: 80%;
+    height: 90%;
+    display: grid;
+    grid-template-rows: 1fr 1fr; /* one column, two rows */
+  }
+
+  .home_toprow{
+    width: 90%;
+    height: 70%;
+    display: grid;
+    grid-template-rows: 60fr 40fr; /* one column, two rows */
+  }
+
+  .home_toprow_toprow{
+    width: 90%;
+    height: 70%;
+    display: flex;
+    justify-content: center;
+    align-items: center
+  }
+
+  .home_toprow_bottomrow{
+    width: 90%;
+    height: 70%;
+    display: flex;
+    justify-content: center;
+    align-items: center
+  }
+
+  .serif-black {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 900;
+  }
+
+
+
+
+  .home_bottomrow {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr; /* three equal columns */
+  }
+
 </style>
 {% endblock %}
 
 {% block content %}
-<h1>This is an example header!</h1>
-<p>This is example text.</p>
-<p id="example">Example text with CSS.</p>
+
+  <div class="home_container">
+
+      <div class="home_toprow">
+        <div class="home_toprow_title">
+          <h1.
+
+        </div>
+        <div class="home_toprow_description">
+          
+        </div>
+
+      </div>
+
+      <div class="home_bottomrow">
+          <div class="col-1"></div>
+          <div class="col-2"></div>
+          <div class="col-3"></div>
+      </div>
+
+  </div>
+
 {% endblock %}

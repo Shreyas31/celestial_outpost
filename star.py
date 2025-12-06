@@ -12,14 +12,11 @@ from simbad_queries import (
     get_full_type_description,
 )
 
-
 star_bp = Blueprint("star", __name__, url_prefix="/star")
-
 
 @star_bp.route("/")
 def home():
     return render_template("star/home.html")
-
 
 @star_bp.route("/search", methods=["POST"])
 def query_star():
