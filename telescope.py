@@ -8,10 +8,6 @@ from database import engine
 
 telescope_bp = Blueprint("telescope", __name__, url_prefix="/telescope")
 
-# =============================================
-# Helper functions
-# =============================================
-
 
 def to_int_or_none(value: Optional[str]) -> Optional[int]:
     if not value:
@@ -31,21 +27,22 @@ def to_float_or_none(value: Optional[str]) -> Optional[float]:
         return None
 
 
-# =============================================
-# Routes
-# =============================================
+def render_home_page(**kwargs):
+    stmt = select(Telescope).limit(24)
+    with Session(engine) as session:
+        telescopes = session.execute(stmt).scalars().all()
+
+    return render_template(
+        "telescope/home.html",
+        telescopes=telescopes,
+        **kwargs,
+    )
 
 
 # home page for telescope
 @telescope_bp.route("/")
 def home():
-    with Session(engine) as session:
-        telescopes = session.execute(select(Telescope)).scalars().all()
-
-    return render_template(
-        "telescope/home.html",
-        telescopes=telescopes,
-    )
+    return render_home_page()
 
 
 # redirection for adding new telescope
@@ -66,12 +63,7 @@ def add_telescope():
         missing_params.append("Focus Length")
 
     if missing_params:
-        with Session(engine) as session:
-            telescopes = session.execute(select(Telescope)).scalars().all()
-
-        return render_template(
-            "telescope/home.html",
-            telescopes=telescopes,
+        return render_home_page(
             error=f"Invalid form input. Missing or invalid: {', '.join(missing_params)}",
         )
 
@@ -104,11 +96,9 @@ def add_telescope():
             session.commit()
         except Exception as e:
             session.rollback()
-            return render_template(
-                "telescope/home.html", error="Server error in adding telescope."
-            )
+            return render_home_page(error=f"Server error in adding telescope {e}.")
 
-        return redirect(url_for("telescope.telescope_information", id=new_telescope.id))
+    return redirect(url_for("telescope.detail_telescope", id=new_telescope.id))
 
 
 # searching for telescope
@@ -117,30 +107,27 @@ def search_telescope():
     searchid = to_int_or_none(request.form.get("f_search_id"))
     searchname = request.form.get("f_search_name")
 
+    stmt = select(Telescope).where(
+        (Telescope.id == searchid) | (Telescope.name == searchname)
+    )
     with Session(engine) as session:
-        stmt = select(Telescope).where(
-            (Telescope.id == searchid) | (Telescope.name == searchname)
-        )
         telescope = session.execute(stmt).scalar_one_or_none()
 
-        if not telescope:
-            return render_template(
-                "telescope/home.html", error="Telescope queried not found."
-            )
-        return redirect(f"/telescope/{telescope.id}")
+    if not telescope:
+        return render_home_page(error="Telescope queried not found.")
+
+    return redirect(url_for("telescope.detail_telescope", id=telescope))
 
 
 # display information for individual telescope
-@telescope_bp.route("/<int:id>", methods=["GET", "POST"])
-def telescope_information(id):
+@telescope_bp.route("/<int:id>")
+def detail_telescope(id):
     with Session(engine) as session:
         telescope = session.execute(
             select(Telescope).where((Telescope.id == id))
         ).scalar_one_or_none()
 
     if not telescope:
-        return render_template(
-            "telescope/home.html", error="Not found, Please enter a new telescope."
-        )
+        return render_home_page(error="Telescope id not found.")
 
     return render_template("telescope/detail.html", telescope=telescope)

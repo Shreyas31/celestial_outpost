@@ -80,25 +80,17 @@
   {% endif %}
 
   <div class="container">
-    <style>
-      margin-left:auto
-    </style>
     <h3>User Observations Leaderboard</h3>
-    <ul>
-      <li>
-        <div class="content">
-          <strong>Top 50 Observers:</strong>
-          <p>
-          {% for i in range(1, 50) %}
-            {{ users[i].firstname }} observed <strong>{{ counts[i] }}</strong> stars including
-            {% for star in observed_stars[i] %}
-              {{ star.starname }}, end=''
-            {% endfor %}
-          {% endfor %}
-          </p>
-        </div>
-      </li>
-    </ul>
-    {% endfor %}
+    <div class="content">
+      <strong>Top 50 Observers:</strong>
+      <p>
+      {% for i in range(users|length) %}
+        {{ users[i].firstname }} observed <strong>{{ counts[i] }}</strong> stars including
+        {% for star in observed_stars[i] %}
+          {{ star.starname }}
+        {% endfor %}
+      {% endfor %}
+      </p>
+    </div>
   </div>
   {% endblock %}
