@@ -3,9 +3,18 @@
 {% block title %}Telescopes{% endblock %}
 
 {% block content %}
+<body>
+  <header>
+    <h1>Telescope Records</h1>
+    <p>Add and query telescope records in the system.</p>
+  </header>
 
 {% if error %}
   <div class="error">{{ error }}</div>
+{% endif %}
+
+{% if success %}
+  <div class="success">{{ success }}</div>
 {% endif %}
 
 <div class="container">
@@ -48,6 +57,8 @@
   </form>
 </div>
 
+<hr>
+
 <div class="container">
   <h3>Search Telescope</h3>
   <form action="{{ url_for('telescope.search_telescope') }}" method="post">
@@ -67,16 +78,19 @@
 
 <div class="container">
   <h3>Telescope List</h3>
-  <h5>Click to see more information</h5>
-  <ul>
-    {% for t in telescopes %}
+  <strong>Browse various types of telescopes:</strong>
+  <p>
+    {% for i in range(telescopes|length) %}
+    <ul>
       <li>
-        <a href="{{ url_for('telescope.telescope_information', id=t.id )}}"><strong>{{t.name}}</strong></a>
-        <small>{{t.manufacturer}}</small>
-        <small>{{t.aperture}}</small>
-        <small>{{t.magnitude}}</small>
+        <div class="content">
+          <!--<img src="" alt="" srcset="">-->
+          </div>
+          {{ telescopes[i].name }} manufactured by <strong>{{telescopes[i].manufacturer}}</strong> was observed by <strong>{{counts[i]}}</strong> observers.
+        </div>
       </li>
+    </ul>
     {% endfor %}
-  </ul>
+  </p>
 </div>
 {% endblock %}
