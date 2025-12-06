@@ -1,22 +1,35 @@
-from typing import Optional
-
 from flask import Blueprint, request, render_template, redirect, url_for
 from sqlalchemy.orm import Session
 from sqlalchemy import select
 
 from models.star import Star
+from models.observation import Observation
+from starutils import find_existing_or_create_star
 from database import engine
 from simbad_queries import (
     query_star_name,
-    query_star_details,
     get_full_type_description,
 )
 
 star_bp = Blueprint("star", __name__, url_prefix="/star")
 
+
+def render_home_page(**kwargs):
+    stmt = select(Star).limit(25)
+    with Session(engine) as session:
+        stars = session.execute(stmt).scalars().all()
+
+    return render_template(
+        "star/home.html",
+        stars=stars,
+        **kwargs,
+    )
+
+
 @star_bp.route("/")
 def home():
-    return render_template("star/home.html")
+    return render_home_page()
+
 
 @star_bp.route("/search", methods=["POST"])
 def query_star():
@@ -25,9 +38,7 @@ def query_star():
     starname = query_star_name(queried_name)
 
     if not starname:
-        return render_template(
-            "star/home.html", error="Star queried not found on the SIMBAD database."
-        )
+        return render_home_page(error="Star queried not found on the SIMBAD database.")
 
     return redirect(
         url_for(
@@ -40,65 +51,29 @@ def query_star():
 
 @star_bp.route("/<starname>")
 def detail_star(starname: str):
-    with Session(engine) as session:
-        stmt = select(Star).where(Star.starname == starname)
-        star = session.execute(stmt).scalar_one_or_none()
+    star = find_existing_or_create_star(starname)
 
-        observations = star.observations if star else []
-        startype = get_full_type_description(star.startype) if star else None
+    if not star:
+        return render_home_page(error=f"Star with star name {starname} does not exist.")
 
+    startype = get_full_type_description(star.startype)
     queried_name = request.args.get("queried_name")
+
+    # Get recent 50 observations of this star
+    stmt = (
+        select(Observation)
+        .where(Observation.star == star)
+        .order_by(Observation.time.desc())
+        .limit(50)
+    )
+    with Session(engine) as session:
+        observations = session.execute(stmt).scalars().all()
 
     return render_template(
         "star/detail.html",
+        star=star,
         starname=starname,
         queried_name=queried_name,
-        star=star,
         startype=startype,
         observations=observations,
     )
-
-
-def find_existing_or_create_star(common_name: str) -> Optional[int]:
-    """
-    Given the common name of a star, will:
-      - If the star's name does not exist, will return None.
-      - If the star already exists in the db, will return the star's ID.
-      - If the star doesn't exist in the db, will create it, and
-        return the star's ID.
-
-    This should be used by observation.py whenever a new observation
-    is created for a star that does not exist, or to bind it to an
-    existing star.
-    """
-    starname: Optional[str] = query_star_name(common_name)
-
-    # Star's name cannot be found
-    if not starname:
-        return None
-
-    with Session(engine) as session:
-        stmt = select(Star).where(Star.starname == starname)
-        star = session.execute(stmt).scalar_one_or_none()
-
-        # Create star if it does not exist:
-        if not star:
-            details = query_star_details(starname)
-
-            star = Star(
-                starname=starname,
-                startype=details["otype"],
-                coordra=details["ra"],
-                coorddec=details["dec"],
-                color=details["sp_type"],
-                appmagnitude=details["app_mag"],
-                measurefilter=details["filter"],
-            )
-            try:
-                session.add(star)
-                session.commit()
-
-            except Exception as e:
-                session.rollback()
-
-    return star.id

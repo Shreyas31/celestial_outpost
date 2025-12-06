@@ -4,13 +4,10 @@ from sqlalchemy.orm import Session
 from typing import Optional
 
 from models.telescope import Telescope
+from models.observation import Observation
 from database import engine
 
 telescope_bp = Blueprint("telescope", __name__, url_prefix="/telescope")
-
-# =============================================
-# Helper functions
-# =============================================
 
 
 def to_int_or_none(value: Optional[str]) -> Optional[int]:
@@ -31,21 +28,22 @@ def to_float_or_none(value: Optional[str]) -> Optional[float]:
         return None
 
 
-# =============================================
-# Routes
-# =============================================
+def render_home_page(**kwargs):
+    stmt = select(Telescope).limit(25)
+    with Session(engine) as session:
+        telescopes = session.execute(stmt).scalars().all()
+
+    return render_template(
+        "telescope/home.html",
+        telescopes=telescopes,
+        **kwargs,
+    )
 
 
 # home page for telescope
 @telescope_bp.route("/")
 def home():
-    with Session(engine) as session:
-        telescopes = session.execute(select(Telescope)).scalars().all()
-
-    return render_template(
-        "telescope/home.html",
-        telescopes=telescopes,
-    )
+    return render_home_page()
 
 
 # redirection for adding new telescope
@@ -57,21 +55,16 @@ def add_telescope():
     focuslength: Optional[int] = to_int_or_none(request.form.get("f_focuslength"))
     purchasable: bool = request.form.get("f_purchasable") is not None
 
-    if not name or not magnitude or not focuslength:
-        missing_params: list[str] = []
-        if not name:
-            missing_params.append("Name")
-        if not magnitude:
-            missing_params.append("Magnitude")
-        if not focuslength:
-            missing_params.append("Focus Length")
+    missing_params: list[str] = []
+    if not name:
+        missing_params.append("Name")
+    if not magnitude:
+        missing_params.append("Magnitude")
+    if not focuslength:
+        missing_params.append("Focus Length")
 
-        with Session(engine) as session:
-            telescopes = session.execute(select(Telescope)).scalars().all()
-
-        return render_template(
-            "telescope/home.html",
-            telescopes=telescopes,
+    if missing_params:
+        return render_home_page(
             error=f"Invalid form input. Missing or invalid: {', '.join(missing_params)}",
         )
 
@@ -104,11 +97,9 @@ def add_telescope():
             session.commit()
         except Exception as e:
             session.rollback()
-            return render_template(
-                "telescope/home.html", error="Server error in adding telescope."
-            )
+            return render_home_page(error=f"Server error in adding telescope {e}.")
 
-        return redirect(url_for("telescope.telescope_information", id=new_telescope.id))
+    return redirect(url_for("telescope.detail_telescope", id=new_telescope.id))
 
 
 # searching for telescope
@@ -117,30 +108,40 @@ def search_telescope():
     searchid = to_int_or_none(request.form.get("f_search_id"))
     searchname = request.form.get("f_search_name")
 
+    stmt = select(Telescope).where(
+        (Telescope.id == searchid) | (Telescope.name == searchname)
+    )
     with Session(engine) as session:
-        stmt = select(Telescope).where(
-            (Telescope.id == searchid) | (Telescope.name == searchname)
-        )
         telescope = session.execute(stmt).scalar_one_or_none()
 
-        if not telescope:
-            return render_template(
-                "telescope/home.html", error="Telescope queried not found."
-            )
-        return redirect(f"/telescope/{telescope.id}")
+    if not telescope:
+        return render_home_page(error="Telescope queried not found.")
+
+    return redirect(url_for("telescope.detail_telescope", id=telescope))
 
 
 # display information for individual telescope
-@telescope_bp.route("/<int:id>", methods=["GET", "POST"])
-def telescope_information(id):
+@telescope_bp.route("/<int:id>")
+def detail_telescope(id):
+    stmt = select(Telescope).where(Telescope.id == id)
     with Session(engine) as session:
-        telescope = session.execute(
-            select(Telescope).where((Telescope.id == id))
-        ).scalar_one_or_none()
+        telescope = session.execute(stmt).scalar_one_or_none()
 
     if not telescope:
-        return render_template(
-            "telescope/home.html", error="Not found, Please enter a new telescope."
-        )
+        return render_home_page(error="Telescope id not found.")
 
-    return render_template("telescope/detail.html", telescope=telescope)
+    # Get recent 50 observations made using this telescope
+    stmt = (
+        select(Observation)
+        .where(Observation.telescope == telescope)
+        .order_by(Observation.time.desc())
+        .limit(50)
+    )
+    with Session(engine) as session:
+        observations = session.execute(stmt).scalars().all()
+
+    return render_template(
+        "telescope/detail.html",
+        telescope=telescope,
+        observations=observations,
+    )
