@@ -10,13 +10,20 @@
       .navbar {
         height: 4vh;
         background-color: #000000;
-        padding: 10px 20px;
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
       }
       .navbar a {
-        color: #ffffff;
+        text-align: center;
+        font-size: 18px;
+        color: white;
+        font-family: 'Noto Serif SC', serif;
+        font-weight: 900;
         text-decoration: none;
-        margin-right: 20px;
-        font-size: 16px;
+        line-height: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
       }
       .navbar a:hover {
         text-decoration: underline;
@@ -27,12 +34,11 @@
   <body>
     <header>
       <nav class="navbar">
-        <!-- Include a logo maybe? -->
-        <a href="{{ url_for('home') }}">Home</a>
-        <a href="{{ url_for('observation.home') }}">Observations</a>
-        <a href="{{ url_for('star.home') }}">Stars</a>
-        <a href="{{ url_for('user.home') }}">Users</a>
-        <a href="{{ url_for('telescope.home') }}">Telescopes</a>
+          <a href="{{ url_for('home') }}">Home</a>
+          <a href="{{ url_for('observation.home') }}">Observations</a>
+          <a href="{{ url_for('star.home') }}">Stars</a>
+          <a href="{{ url_for('user.home') }}">Users</a>
+          <a href="{{ url_for('telescope.home') }}">Telescopes</a>
       </nav>
     </header>
     <main>

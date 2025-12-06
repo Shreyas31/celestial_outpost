@@ -14,6 +14,9 @@
     background-repeat: no-repeat;
     color: black;
 
+    background-color: rgba(0, 0, 0, 0.5);
+    background-blend-mode: darken;
+
     animation: bgZoom 10s infinite;
 
     display: flex;
@@ -76,8 +79,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    padding-left: 12%;
-    padding-right: 12%;
+    padding-left: 10%;
+    padding-right: 10%;
     padding: 0px;
   }
   .row-3 a {
@@ -92,7 +95,6 @@
   .row-3 a:hover {
     text-decoration: underline;
   }
-
 
   .home_bottom {
     display: grid;
@@ -141,7 +143,7 @@
     font-family: 'Noto Serif SC', serif;
     font-weight: 900;
     color: white;
-    text-align: center;
+    text-align: bottom;
     line-height: 0.5;
   }
   .col-title h2 {
@@ -171,7 +173,6 @@
   .col-link a:hover {
     text-decoration: underline;
   }
-
 
 </style>
 {% endblock %}
