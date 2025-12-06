@@ -1,6 +1,6 @@
 stages:
   - format
-  - deploy-to-impaas
+  - deploy
 
 python-formatting:
   stage: format
