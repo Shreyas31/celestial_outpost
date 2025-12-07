@@ -1,4 +1,5 @@
-from sqlalchemy.orm import Mapped, relationship
+from sqlalchemy.orm import Mapped, relationship, mapped_column
+from sqlalchemy import Numeric
 
 from models.base import Base
 
