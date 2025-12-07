@@ -109,7 +109,7 @@ def search_observer_by_name():
         return render_home_page(error="No name given to search by.")
 
     with Session(engine) as session:
-        stmt = select(User).where((User.lastname == name))
+        stmt = select(User).where(User.lastname == name)
         users = session.execute(stmt).scalars().all()
 
     if not users:
