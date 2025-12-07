@@ -11,7 +11,7 @@
         height: 5vh;
         background-color: #000000;
         display: grid;
-        grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
       }
       .navbar a {
         text-align: center;
@@ -42,7 +42,6 @@
           <a href="{{ url_for('star.home') }}">Stars</a>
           <a href="{{ url_for('user.home') }}">Stargazers</a>
           <a href="{{ url_for('telescope.home') }}">Telescopes</a>
-          <a href="{{ url_for('api-observation.get_all_observations') }}">JSON API</a>
       </nav>
     </header>
     <main>
