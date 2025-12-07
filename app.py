@@ -1,6 +1,7 @@
 import requests
 from requests import Response
-from datetime import date
+from datetime import datetime
+from zoneinfo import ZoneInfo
 from typing import Optional
 
 from flask import Flask, render_template
@@ -21,8 +22,10 @@ app.register_blueprint(observation_bp)
 def home():
     url: str = "https://api.nasa.gov/planetary/apod"
 
+    NY_TZ = ZoneInfo("America/New_York")
+
     today_date: dict = {
-        "date": date.today().strftime("%Y-%m-%d"),
+        "date": datetime.now(NY_TZ).strftime("%Y-%m-%d"),
         "api_key": "wEBGgaS95dGL6qtXFfHE6q4ViVALH7DIE48lJbNb",
     }
 
