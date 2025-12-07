@@ -93,10 +93,54 @@ def get_top_users(count: int):
     return jsonify(response), 200
 
 
+@api_bp.route("/user/add", methods=["POST"])
+def add_user():
+    data = request.get_json()
+
+    if not data:
+        return {"error": "No data received"}, 400
+    
+    if not isinstance(data, dict):
+        return {"error": "Input should be an object."}, 400
+
+    required_cols = (
+        "email",
+        "firstname",
+        "lastname",
+        "city",
+        "country",
+    )
+
+    missing_cols = []
+    for col in required_cols:
+        if col not in data:
+            missing_cols.append(col)
+
+    if missing_cols:
+        return {"error": f"Missing columns: {', '.join(missing_cols)}."}, 400
+
+    if data["email"]
+
+    other_cols = (
+        "middlenames",
+        "initials",
+        "institution",
+    )
+
+    new_item = User()
+
+
+
+    with Session(engine) as session:
+        pass
+
+    return {"success": "Successfully added user to the database"}, 200
+
+
+
 # =====================
 # == STAR API ROUTES ==
 # =====================
-
 
 # ==========================
 # == TELESCOPE API ROUTES ==
