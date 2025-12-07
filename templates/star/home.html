@@ -82,7 +82,7 @@
                 </div>
                 <div class="table_subitem">
                   <p class="obs_text">
-                    <span class="obs_link">{{ stars[i].starname }}</span>
+                    <a href="{{ url_for('star.detail_star', starname=obs.star.starname )}}" class="obs_link">{{ stars[i].starname }}</a>
                      with <strong>{{stars[i].appmagnitude}}</strong> was observed by <strong>{{counts[i]}}</strong> observers.</p>
                 </div>
               </div>

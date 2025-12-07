@@ -2,95 +2,143 @@
 
 {% block title %}Telescopes{% endblock %}
 
+
+{% block style %}
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<style>
+  main {
+    margin: 0;
+    width: 100%;
+    min-height: 100vh;
+    background-image: url("https://upload.wikimedia.org/wikipedia/commons/e/e4/NGC4666_-_HST_-_Potw2141a.jpg");
+    background-size: 100vw 100vh;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    color: black;
+
+    background-color: rgba(0, 0, 0, 0.5);
+    background-blend-mode: darken;
+
+    animation: fadeAlpha 5s infinite alternate;
+  }
+
+  @keyframes fadeAlpha {
+    0% {
+      background-color: rgba(0, 0, 0, 1);   /* fully dark */
+    }
+    100% {
+      background-color: rgba(0, 0, 0, 0);   /* fully transparent */
+    }
+  }
+</style>
+{% endblock %}
+
 {% block content %}
-<body>
-  <header>
-    <h1>Telescope Records</h1>
-    <p>Add and query telescope records in the system.</p>
-  </header>
 
-{% if error %}
-  <div class="error">{{ error }}</div>
-{% endif %}
+<div class="element_page">
 
-{% if success %}
-  <div class="success">{{ success }}</div>
-{% endif %}
+  <div></div>
 
-<div class="container">
-  <h3>Add New Telescope</h3>
-  <form action="{{ url_for('telescope.add_telescope') }}" method="post">
-    <label for="f_name">Name:</label>
-    <input type="text" id="f_name" name="f_name" required>
+  <div class="element_left">
 
-    <label for="f_manufacturer">Manufacturer (optional):</label>
-    <input type="text" id="f_manufacturer" name="f_manufacturer">
+    <div class="left_container">
+      <h3>Telescope Records</h3>
+      <h5>Add and query telescope records in the system.</h5>
+      <form action="{{ url_for('telescope.add_telescope') }}" method="post">
+        <label for="f_name">Name:</label>
+        <input type="text" id="f_name" name="f_name" required>
+        <label for="f_manufacturer">Manufacturer (optional):</label>
+        <input type="text" id="f_manufacturer" name="f_manufacturer">
+        <label for="f_aperture">Aperture in inches:</label>
+        <input type="text" id="f_aperture" name="f_aperture" required>
+        <label for="f_magnitude">Magnitude:</label>
+        <input type="text" id="f_magnitude" name="f_magnitude" required>
+        <label for="f_focuslength">Focal Length in inches:</label>
+        <input type="text" id="f_focuslength" name="f_focuslength" required>
+        <label for="f_fieldwidth">FOV width in arcminutes (optional):</label>
+        <input type="text" id="f_fieldwidth" name="f_fieldwidth">
+        <label for="f_fieldheight">FOV height in arcminutes (optional):</label>
+        <input type="text" id="f_fieldheight" name="f_fieldheight">    
+        <label for="f_length">Length in cm (optional):</label>
+        <input type="text" id="f_length" name="f_length">  
+        <label for="f_weight">Weight in kg (optional):</label>
+        <input type="text" id="f_weight" name="f_weight">  
+        <label for="f_purchasable">Purchasable (optional):</label>
+        <input type="checkbox" id="f_purchasable" name="f_purchasable">   
+        <label for="f_imageurl">Imageurl (optional):</label>
+        <input type="text" id="f_imageurl" name="f_imageurl">   
+        <input type="submit" value="submit">
+      </form>
+    </div>
 
-    <label for="f_aperture">Aperture in inches:</label>
-    <input type="text" id="f_aperture" name="f_aperture" required>
+    <div class="left_container_lower">
+      <h3>Search Telescope</h3>
+      <form action="{{ url_for('telescope.search_telescope') }}" method="post">
+        <label for="f_search_id">Search by Id:</label>
+        <input type="text" id="f_search_id" name="f_search_id">
+        <input type="submit" value="submit">
+      </form>
+      <form action="{{ url_for('telescope.search_telescope') }}" method="post">
+        <label for="f_search_name">Search by Name:</label>
+        <input type="text" id="f_search_name" name="f_search_name">
+        <input type="submit" value="submit">
+      </form>
+    </div>
 
-    <label for="f_magnitude">Magnitude:</label>
-    <input type="text" id="f_magnitude" name="f_magnitude" required>
+    {% if error %}
+    <div class="left_container_lower">
+      <h4>{{ error }}</h4>   
+    </div>         
+    {% endif %}
 
-    <label for="f_focuslength">Focal Length in inches:</label>
-    <input type="text" id="f_focuslength" name="f_focuslength" required>
+    {% if success %}
+    <div class="left_container_lower">
+      <h4>{{ success }}</h4> 
+    </div>
+    {% endif %}
+  </div>
 
-    <label for="f_fieldwidth">FOV width in arcminutes (optional):</label>
-    <input type="text" id="f_fieldwidth" name="f_fieldwidth">
+  <div></div>
 
-    <label for="f_fieldheight">FOV height in arcminutes (optional):</label>
-    <input type="text" id="f_fieldheight" name="f_fieldheight">    
+  <div class="element_right">
+    <div class="right_container">
+      <h3>Telescope List</h3>
+      <h5>Browse Various Types of Telescopes</h5>
 
-    <label for="f_length">Length in cm (optional):</label>
-    <input type="text" id="f_length" name="f_length">  
+      <table class="star_table">
+        <tr>
+          {% for i in range(telescopes|length) %}
+            <td> 
+              <div class="table_item">
+                <div class="table_subitem">
+                  <img src="{{ telescopes[i].imageurl }}">
+                </div>
+                <div class="table_subitem">
+                  <p class="obs_text">
+                    <a href="{{ url_for('telescope.detail_telescope', id=telescopes[i].id) }}" class="obs_link">{{ telescopes[i].name }}</a>
+                     manufactured by <strong>{{telescopes[i].manufacturer}}</strong> was observed by <strong>{{counts[i]}}</strong> observers.</p>
+                </div>
+              </div>
+            </td>
+            {% if loop.index % 5 == 0 %}
+              </tr><tr>
+            {% endif %}
+          {% endfor %}
 
-    <label for="f_weight">Weight in kg (optional):</label>
-    <input type="text" id="f_weight" name="f_weight">  
+          {% if stars|length % 5 != 0 %}
+            {% for _ in range(5 - (stars|length % 5)) %}
+              <td>
+              </td>
+            {% endfor %}
+          {% endif %}
+        </tr>
+      </table>
+    </div>
+  </div>
 
-    <label for="f_purchasable">Purchasable (optional):</label>
-    <input type="checkbox" id="f_purchasable" name="f_purchasable">   
+  <div></div>
 
-    <label for="f_imageurl">Imageurl (optional):</label>
-    <input type="text" id="f_imageurl" name="f_imageurl">   
-    
-    <input type="submit" value="submit">
-  </form>
 </div>
 
-<hr>
-
-<div class="container">
-  <h3>Search Telescope</h3>
-  <form action="{{ url_for('telescope.search_telescope') }}" method="post">
-    <label for="f_search_id">Search by Id:</label>
-    <input type="text" id="f_search_id" name="f_search_id">
-
-    <input type="submit" value="submit">
-  </form>
-
-  <form action="{{ url_for('telescope.search_telescope') }}" method="post">
-    <label for="f_search_name">Search by Name:</label>
-    <input type="text" id="f_search_name" name="f_search_name">
-
-    <input type="submit" value="submit">
-  </form>
-</div>
-
-<div class="container">
-  <h3>Telescope List</h3>
-  <strong>Browse various types of telescopes:</strong>
-  <p>
-    {% for i in range(telescopes|length) %}
-    <ul>
-      <li>
-        <div class="content">
-          <!--<img src="" alt="" srcset="">-->
-          </div>
-          {{ telescopes[i].name }} manufactured by <strong>{{telescopes[i].manufacturer}}</strong> was observed by <strong>{{counts[i]}}</strong> observers.
-        </div>
-      </li>
-    </ul>
-    {% endfor %}
-  </p>
-</div>
 {% endblock %}
