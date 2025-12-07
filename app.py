@@ -10,14 +10,22 @@ from web.star import star_bp
 from web.telescope import telescope_bp
 from web.user import user_bp
 from web.observation import observation_bp
-from api.api import api_bp
+
+from api.star import star_api_bp
+from api.telescope import telescope_api_bp
+from api.user import user_api_bp
+from api.observation import observation_api_bp
 
 app = Flask(__name__)
 app.register_blueprint(star_bp)
 app.register_blueprint(telescope_bp)
 app.register_blueprint(user_bp)
 app.register_blueprint(observation_bp)
-app.register_blueprint(api_bp)
+
+app.register_blueprint(star_api_bp)
+app.register_blueprint(telescope_api_bp)
+app.register_blueprint(user_api_bp)
+app.register_blueprint(observation_api_bp)
 
 
 @app.route("/", methods=["GET", "POST"])

@@ -2,21 +2,14 @@ from flask import Blueprint, jsonify, request
 from sqlalchemy import select, func, desc
 from sqlalchemy.orm import Session
 
-# from models.star import Star
-# from models.telescope import Telescope
-
 from models.user import User
 from models.observation import Observation
 from database import engine
 
-api_bp = Blueprint("api", __name__, url_prefix="/api")
-
-# =====================
-# == USER API ROUTES ==
-# =====================
+user_api_bp = Blueprint("api-user", __name__, url_prefix="/api/user")
 
 
-@api_bp.route("/user/<int:id>")
+@user_api_bp.route("/<int:id>")
 def get_user(id: int):
     with Session(engine) as session:
         user = session.get(User, id)
@@ -45,7 +38,7 @@ def get_user(id: int):
     return response, 200
 
 
-@api_bp.route("/user/top/<int:count>")
+@user_api_bp.route("/top/<int:count>")
 def get_top_users(count: int):
     response: list[dict] = []
 
@@ -93,13 +86,13 @@ def get_top_users(count: int):
     return jsonify(response), 200
 
 
-@api_bp.route("/user/add", methods=["POST"])
+@user_api_bp.route("/add", methods=["POST"])
 def add_user():
     data = request.get_json()
 
     if not data:
         return {"error": "No data received"}, 400
-    
+
     if not isinstance(data, dict):
         return {"error": "Input should be an object."}, 400
 
@@ -119,7 +112,9 @@ def add_user():
     if missing_cols:
         return {"error": f"Missing columns: {', '.join(missing_cols)}."}, 400
 
-    if data["email"]
+    if data["email"]:
+        # TODO
+        pass
 
     other_cols = (
         "middlenames",
@@ -129,19 +124,7 @@ def add_user():
 
     new_item = User()
 
-
-
     with Session(engine) as session:
         pass
 
     return {"success": "Successfully added user to the database"}, 200
-
-
-
-# =====================
-# == STAR API ROUTES ==
-# =====================
-
-# ==========================
-# == TELESCOPE API ROUTES ==
-# ==========================
