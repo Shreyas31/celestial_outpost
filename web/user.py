@@ -5,6 +5,7 @@ from sqlalchemy.orm import Session
 from models.user import User
 from models.observation import Observation
 from database import engine
+from helpers.email import is_valid_email
 
 user_bp = Blueprint("user", __name__, url_prefix="/user")
 
@@ -73,6 +74,9 @@ def add_observer():
         return render_home_page(
             error="Lastname, Firstname, Email, City, and Country are required.",
         )
+
+    if not is_valid_email(email):
+        return render_home_page(error="Invalid email address.")
 
     with Session(engine) as session:
         stmt = select(User).where(User.email == email)

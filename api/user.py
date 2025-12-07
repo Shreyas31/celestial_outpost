@@ -1,21 +1,13 @@
 from flask import Blueprint, jsonify, request
 from sqlalchemy import select, func, desc
 from sqlalchemy.orm import Session
-from email_validator import validate_email, EmailNotValidError
 
 from models.user import User
 from models.observation import Observation
 from database import engine
+from helpers.email import is_valid_email
 
 user_api_bp = Blueprint("api-user", __name__, url_prefix="/api/user")
-
-
-def is_valid_email(email: str) -> bool:
-    try:
-        validate_email(email)
-        return True
-    except EmailNotValidError:
-        return False
 
 
 @user_api_bp.route("/<int:id>")
