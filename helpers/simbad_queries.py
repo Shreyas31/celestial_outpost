@@ -69,7 +69,7 @@ def query_star_details(object_name: str) -> dict[str, Any]:
         star_data[head] = q[head][0]
 
     # Add object type:
-    star_data["otype"] = otype_to_label[q["otype"][0]]
+    star_data["otype"] = otype_to_label.get(q["otype"][0], "Unknown")
 
     # Query for fluxes:
     star_data["app_mag"] = ""

@@ -93,7 +93,14 @@ def add_telescope():
     weight: Optional[float] = to_float_or_none(request.form.get("f_weight"))
     imageurl: Optional[str] = request.form.get("f_imageurl")
 
+    stmt = select(Telescope).where(Telescope.name == name)
     with Session(engine) as session:
+        existing_telescope = session.execute(stmt).scalar_one_or_none()
+        if existing_telescope:
+            return render_home_page(
+                error=f"Invalid form input. Telescope already exists in telescope."
+            )
+
         new_telescope = Telescope(
             name=name,
             manufacturer=manufacturer,
@@ -111,11 +118,12 @@ def add_telescope():
         try:
             session.add(new_telescope)
             session.commit()
+            id = new_telescope.id
         except Exception as e:
             session.rollback()
             return render_home_page(error=f"Server error in adding telescope {e}.")
 
-    return redirect(url_for("telescope.detail_telescope", id=new_telescope.id))
+    return redirect(url_for("telescope.detail_telescope", id=id))
 
 
 # searching for telescope

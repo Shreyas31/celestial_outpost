@@ -5,7 +5,7 @@ Id,Label,Description,Imageurl
 a2*,alf2CVnV*,CVn Variable,star.png
 AB*,AGB*,Asymptotic Giant Branch Star,star.png
 Ae*,Ae*,Herbig Ae/Be Star,star.png
-AGN,AGN,Active Galaxy Nucleus,galaxy.png
+AGN,AGN,Active Galaxy Nucleus,black_hole.png
 As*,Association,Association of Stars,star.png
 bC*,bCepV*,beta Cep Variable,star.png
 bCG,BlueCompactG,Blue Compact Galaxy,galaxy.png
@@ -66,7 +66,7 @@ HII,HIIReg,HII Region,nebula.png
 HS*,HotSubdwarf,Hot Subdwarf,star.png
 HV*,HighVel*,High Velocity Star,star.png
 HVC,HVCld,High-velocity Cloud,nebula.png
-HXB,HighMassXBin,High Mass X-ray Binary,binary.png
+HXB,HighMassXBin,High Mass X-ray Binary,black_hole.png
 IG,InteractingG,Interacting Galaxies,galaxy.png
 IR,Infrared,Infra-Red Source,unknown.png
 Ir*,IrregularV*,Irregular Variable,star.png
@@ -75,11 +75,11 @@ LeG,LensedG,Gravitationally Lensed Image of a Galaxy,galaxy.png
 LeI,LensedImage,Gravitationally Lensed Image,unknown.png
 LeQ,LensedQ,Gravitationally Lensed Image of a Quasar,galaxy.png
 Lev,LensingEv,(Micro)Lensing Event,unknown.png
-LIN,LINER,LINER-type Active Galaxy Nucleus,galaxy.png
+LIN,LINER,LINER-type Active Galaxy Nucleus,black_hole.png
 LM*,Low-Mass*,Low-mass Star,star.png
 LP*,LongPeriodV*,Long-Period Variable,star.png
 LSB,LowSurfBrghtG,Low Surface Brightness Galaxy,galaxy.png
-LXB,LowMassXBin,Low Mass X-ray Binary,binary.png
+LXB,LowMassXBin,Low Mass X-ray Binary,black_hole.png
 Ma*,Massiv*,Massive Star,star.png
 Mas,Maser,Maser,unknown.png
 MGr,MouvGroup,Moving Group,unknown.png
@@ -141,7 +141,7 @@ Sy1,Seyfert1,Seyfert 1 Galaxy,galaxy.png
 Sy2,Seyfert2,Seyfert 2 Galaxy,galaxy.png
 SyG,Seyfert,Seyfert Galaxy,galaxy.png
 TT*,TTauri*,T Tauri Star,star.png
-ULX,ULX,Ultra-luminous X-ray Source,unknown.png
+ULX,ULX,Ultra-luminous X-ray Source,black_hole.png
 UV,UV,UV-emission Source,unknown.png
 V*,Variable*,Variable Star,star.png
 var,Variable,Variable source,unknown.png
@@ -150,5 +150,5 @@ WD*,WhiteDwarf,White Dwarf,star.png
 WR*,WolfRayet*,Wolf-Rayet,star.png
 WV*,Type2Cep,Type II Cepheid Variable,star.png
 X,X,X-ray Source,unknown.png
-XB*,XrayBin,X-ray Binary,binary.png
+XB*,XrayBin,X-ray Binary,black_hole.png
 Y*O,YSO,Young Stellar Object,star.png

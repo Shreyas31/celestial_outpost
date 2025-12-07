@@ -42,7 +42,7 @@ def get_telescope(id: int):
 
 
 @telescope_api_bp.route("/add", methods=["POST"])
-def add_user():
+def add_telescope():
     data = request.get_json()
 
     if not data:
