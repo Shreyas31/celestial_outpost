@@ -8,7 +8,7 @@ from database import engine
 from models.observation import Observation
 from models.user import User
 from models.telescope import Telescope
-from starutils import find_existing_or_create_star
+from helpers.starutils import find_existing_or_create_star
 
 observation_bp = Blueprint("observation", __name__, url_prefix="/observation")
 

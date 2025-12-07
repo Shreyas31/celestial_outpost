@@ -4,9 +4,9 @@ from sqlalchemy import select, func, desc
 
 from models.star import Star
 from models.observation import Observation
-from starutils import find_existing_or_create_star
+from helpers.starutils import find_existing_or_create_star
 from database import engine
-from simbad_queries import (
+from helpers.simbad_queries import (
     query_star_name,
     get_full_type_description,
     get_image_url,

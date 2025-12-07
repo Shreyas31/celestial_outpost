@@ -6,11 +6,11 @@ from typing import Optional
 
 from flask import Flask, render_template
 
-from star import star_bp
-from telescope import telescope_bp
-from user import user_bp
-from observation import observation_bp
-from api import api_bp
+from routes.star import star_bp
+from routes.telescope import telescope_bp
+from routes.user import user_bp
+from routes.observation import observation_bp
+from routes.api import api_bp
 
 app = Flask(__name__)
 app.register_blueprint(star_bp)

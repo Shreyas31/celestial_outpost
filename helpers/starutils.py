@@ -4,7 +4,7 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from models.star import Star
-from simbad_queries import query_star_name, query_star_details
+from helpers.simbad_queries import query_star_name, query_star_details
 from database import engine
 
 

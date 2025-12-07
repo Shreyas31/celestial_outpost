@@ -10,7 +10,7 @@ otype_to_label: dict[str, str] = {}
 label_to_desc: dict[str, str] = {}
 label_to_img: dict[str, str] = {}
 
-with open("object_types.csv", "r") as f:
+with open("helpers/object_types.csv", "r") as f:
     f.readline()  # Remove headers
 
     reader = csv.reader(f)
