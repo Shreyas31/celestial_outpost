@@ -2,48 +2,109 @@
 
 {% block title %}Stars{% endblock %}
 
+{% block style %}
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<style>
+  main {
+    margin: 0;
+    width: 100%;
+    min-height: 100vh;
+    background-image: url("https://upload.wikimedia.org/wikipedia/commons/e/e4/NGC4666_-_HST_-_Potw2141a.jpg");
+    background-size: 100vw 100vh;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    color: black;
+
+    background-color: rgba(0, 0, 0, 0.5);
+    background-blend-mode: darken;
+
+    animation: fadeAlpha 5s infinite alternate;
+  }
+
+  @keyframes fadeAlpha {
+    0% {
+      background-color: rgba(0, 0, 0, 1);   /* fully dark */
+    }
+    100% {
+      background-color: rgba(0, 0, 0, 0);   /* fully transparent */
+    }
+  }
+</style>
+{% endblock %}
+
 {% block content %}
-<body>
-  <header>
-    <h1>Star Records</h1>
-    <p>Query star observations in the system.</p>
-  </header>
 
-{% if error %}
-  <div class="error">{{ error }}</div>
-{% endif %}
+<div class="element_page">
 
-{% if success %}
-  <div class="success">{{ success }}</div>
-{% endif %}
+  <div></div>
 
-<div class="container">
-  <h3>Looking for a specific star and its observations?</h3>
+  <div class="element_left">
 
-  <form action="{{ url_for('star.query_star') }}" method="POST">
-    <label for="f_starname">Query here:</label>
-    <input name="f_starname" id="f_starname" placeholder="Sirius..." type="text" required>
-    <input type="submit">
-  </form>
+    <div class="left_container">
+      <h3>Find Your Star</h3>
+      <h5>Search Our Star Records and Discover More About Each Star</h5>
+      <form action="{{ url_for('star.query_star') }}" method="POST">
+        <label for="f_starname">Query here:</label>
+        <input name="f_starname" id="f_starname" placeholder="Sirius..." type="text" required>
+        <input type="submit">
+      </form>
+    </div>
+
+    {% if error %}
+    <div class="left_container_lower">
+      <h4>{{ error }}</h4>   
+    </div>         
+    {% endif %}
+
+    {% if success %}
+    <div class="left_container_lower">
+      <h4>{{ success }}</h4> 
+    </div>
+    {% endif %}
+
+  </div>
+
+  <div></div>
+
+  <div class="element_right">
+    <div class="right_container">
+      <h3>Explore Our Star Catalog</h3>
+      <h5>Dive into Our Collection and Uncover the Details of Every Shining Name</h5>
+
+      <table class="star_table">
+        <tr>
+          {% for i in range(stars|length) %}
+            <td> 
+              <div class="table_item">
+                <div class="table_subitem">
+                  <img src="{{ url_for('static', filename='images/' ~ images[i]) }}" alt="{{ images[i] }}">
+                </div>
+                <div class="table_subitem">
+                  <p class="obs_text">
+                    <span class="obs_link">{{ stars[i].starname }}</span>
+                     with <strong>{{stars[i].appmagnitude}}</strong> was observed by <strong>{{counts[i]}}</strong> observers.</p>
+                </div>
+              </div>
+            </td>
+            {% if loop.index % 5 == 0 %}
+              </tr><tr>
+            {% endif %}
+          {% endfor %}
+
+          {% if stars|length % 5 != 0 %}
+            {% for _ in range(5 - (stars|length % 5)) %}
+              <td>
+              </td>
+            {% endfor %}
+          {% endif %}
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <div></div>
+
 </div>
 
-<hr>
-
-<div class="container">
-  <h3> Star Observations</h3>
-  <strong>Browse various types of star observations:</strong>
-  <p>
-    {% for i in range(stars|length) %}
-    <ul>
-      <li>
-        <div class="content">
-          <img src="{{ url_for('static', filename='images/' ~ images[i]) }}" alt="{{ images[i] }}" srcset="">
-          </div>
-          {{ stars[i].name }} with <strong>{{stars[i].appmagnitude}}</strong> was observed by <strong>{{counts[i]}}</strong> observers.
-        </div>
-      </li>
-    </ul>
-    {% endfor %}
-  </p>
-</div>
 {% endblock %}

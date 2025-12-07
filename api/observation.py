@@ -55,6 +55,17 @@ def get_newest_observations(count: int):
 
     return jsonify([obs.to_dict() for obs in observations]), 200
 
+@observation_api_bp.route("/")
+def get_all_observations():
+    """
+    API endpoint to get all observations from the db.
+
+    """
+    stmt = select(Observation).order_by(Observation.time.desc())
+    with Session(engine) as session:
+        observations = session.execute(stmt).scalars().all()
+
+    return jsonify([obs.to_dict() for obs in observations]), 200
 
 @observation_api_bp.route("/add", methods=["POST"])
 def add_observation():
