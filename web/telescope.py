@@ -67,6 +67,7 @@ def add_telescope():
     name: Optional[str] = request.form.get("f_name")
     magnitude: Optional[int] = to_int_or_none(request.form.get("f_magnitude"))
     focuslength: Optional[int] = to_int_or_none(request.form.get("f_focuslength"))
+    aperture: Optional[int] = to_int_or_none(request.form.get("f_aperture"))
     purchasable: bool = request.form.get("f_purchasable") is not None
 
     missing_params: list[str] = []
@@ -76,6 +77,8 @@ def add_telescope():
         missing_params.append("Magnitude")
     if not focuslength:
         missing_params.append("Focus Length")
+    if not aperture:
+        missing_params.append("Aperture")
 
     if missing_params:
         return render_home_page(
@@ -84,7 +87,6 @@ def add_telescope():
 
     # NON-NECESSARY FIELDS
     manufacturer: Optional[str] = request.form.get("f_manufacturer")
-    aperture: Optional[int] = to_int_or_none(request.form.get("f_aperture"))
     fieldwidth: Optional[float] = to_float_or_none(request.form.get("f_fieldwidth"))
     fieldheight: Optional[float] = to_float_or_none(request.form.get("f_fieldheight"))
     length: Optional[int] = to_int_or_none(request.form.get("f_length"))
