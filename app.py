@@ -10,12 +10,14 @@ from star import star_bp
 from telescope import telescope_bp
 from user import user_bp
 from observation import observation_bp
+from api import api_bp
 
 app = Flask(__name__)
 app.register_blueprint(star_bp)
 app.register_blueprint(telescope_bp)
 app.register_blueprint(user_bp)
 app.register_blueprint(observation_bp)
+app.register_blueprint(api_bp)
 
 
 @app.route("/", methods=["GET", "POST"])

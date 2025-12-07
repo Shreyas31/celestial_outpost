@@ -19,3 +19,16 @@ class User(Base):
 
     def get_full_name(self) -> str:
         return f"{self.firstname} {self.lastname}"
+
+    def to_dict(self) -> dict:
+        return {
+            "id": self.id,
+            "lastname": self.lastname,
+            "firstname": self.firstname,
+            "middlenames": self.middlenames,
+            "initials": self.initials,
+            "email": self.email,
+            "institution": self.institution,
+            "city": self.city,
+            "country": self.country,
+        }

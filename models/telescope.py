@@ -19,9 +19,6 @@ class Telescope(Base):
     imageurl: Mapped[str]
 
     observations: Mapped[list["Observation"]] = relationship(back_populates="telescope")
-    # stars: Mapped[list["Star"]] = relationship(
-    #     "Star", primaryjoin="Star.appmagnitude < Telescope.magnitude", viewonly=True
-    # )
 
     def fullname(self) -> str:
         return f"{self.manufacturer} {self.name}"
