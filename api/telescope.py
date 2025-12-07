@@ -106,5 +106,5 @@ def add_user():
 
     return {
         "success": "Successfully added telescope to the database",
-        "id": id,
+        "telescopeid": id,
     }, 200

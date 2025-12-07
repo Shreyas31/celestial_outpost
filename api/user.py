@@ -185,5 +185,5 @@ def add_user():
 
     return {
         "success": "Successfully added user to the database",
-        "id": id,
+        "userid": id,
     }, 200
