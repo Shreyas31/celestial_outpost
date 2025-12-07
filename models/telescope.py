@@ -22,3 +22,18 @@ class Telescope(Base):
 
     def fullname(self) -> str:
         return f"{self.manufacturer} {self.name}"
+
+    def to_dict(self) -> dict:
+        return {
+            "name": self.name,
+            "manufacturer": self.manufacturer,
+            "aperture": self.aperture,
+            "magnitude": self.magnitude,
+            "focuslength": self.focuslength,
+            "fieldwidth": self.fieldwidth,
+            "fieldheight": self.fieldheight,
+            "length": self.length,
+            "weight": self.weight,
+            "purchasable": self.purchasable,
+            "imageurl": self.imageurl,
+        }

@@ -13,7 +13,7 @@ class Star(Base):
     coordra: Mapped[float]
     coorddec: Mapped[float]
     color: Mapped[str]
-    appmagnitude: Mapped[float] = mapped_column(Numeric(3,2))
+    appmagnitude: Mapped[float] = mapped_column(Numeric(3, 2))
     measurefilter: Mapped[str]
 
     observations: Mapped[list["Observation"]] = relationship(back_populates="star")
@@ -26,3 +26,14 @@ class Star(Base):
             return "No data"
 
         return f"{self.appmagnitude:.2f} mag ({self.measurefilter})"
+
+    def to_dict(self) -> dict:
+        return {
+            "starname": self.starname,
+            "startype": self.startype,
+            "coordra": self.coordra,
+            "coorddec": self.coorddec,
+            "color": self.color,
+            "appmagnitude": self.appmagnitude,
+            "measurefilter": self.measurefilter,
+        }
