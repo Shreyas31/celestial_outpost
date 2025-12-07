@@ -4,52 +4,136 @@
 
 {% block style %}
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+<style>
+  main {
+    margin: 0;
+    width: 100%;
+    min-height: 100vh;
+    background-image: url("https://upload.wikimedia.org/wikipedia/commons/e/e4/NGC4666_-_HST_-_Potw2141a.jpg");
+    background-size: 100vw 100vh;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    color: black;
+
+    background-color: rgba(0, 0, 0, 0.5);
+    background-blend-mode: darken;
+
+    animation: fadeAlpha 5s infinite alternate;
+  }
+
+  @keyframes fadeAlpha {
+    0% {
+      background-color: rgba(0, 0, 0, 1);   /* fully dark */
+    }
+    100% {
+      background-color: rgba(0, 0, 0, 0);   /* fully transparent */
+    }
+  }
+</style>
+
 {% endblock %}
 
 {% block content %}
 
-{% if error %}
-    <h3>{{ error }}</h3>
-{% endif %}
+<div class="element_page">
 
-<div class="container">
-  <h3>Add Observation</h3>
-  <form action="{{ url_for('observation.add_observation') }}" method="post">
-    
-    <label for="email">Email:</label>
-    <input type="text" id="email" name="email" required>
+  <div></div>
 
-    <label for="starname">Star name:</label>
-    <input type="text" id="starname" name="starname" required>
+  <div class="element_left">
 
-    <label for="telname">Telescope name:</label>
-    <input type="text" id="telname" name="telname" required>
+    <div class="left_container">
+      <h3>Add an Observation</h3>
+      <h5>Add Your Observation to Our Sky Journal</h5>
+      <form action="{{ url_for('observation.add_observation') }}" method="post">
+        
+        <label for="email">Email:</label>
+        <input type="text" id="email" name="email" required>
 
-    <label for="city">Observed city:</label>
-    <input type="text" id="city" name="city" required>
+        <label for="starname">Star name:</label>
+        <input type="text" id="starname" name="starname" required>
 
-    <label for="country">Observed country:</label>
-    <input type="text" id="country" name="country" required>
+        <label for="telname">Telescope name:</label>
+        <input type="text" id="telname" name="telname" required>
 
-    <input type="submit" value="Submit">
-  </form>
+        <label for="city">Observed city:</label>
+        <input type="text" id="city" name="city" required>
+
+        <label for="country">Observed country:</label>
+        <input type="text" id="country" name="country" required>
+
+        <input type="submit" value="Submit">
+
+      </form>
+    </div>
+
+    {% if error %}
+    <div class="left_container">
+      <h4>{{ error }}</h4>
+
+      {% if hint == "add-user" %}
+      <div class="button">
+        <a href="{{ url_for('user.home') }}" class="error_button">
+          Click here to add user!
+        </a>
+      </div>
+      {% endif %}
+
+      {% if hint == "add-telescope" %}
+      <div class="button">    
+        <a href="{{ url_for('telescope.home') }}" class="error_button">
+          Click here to add telescope!
+        </a>
+      </div>  
+      {% endif %}
+    </div>
+    {% endif %}
+
+  </div>
+
+  <div></div>
+
+  <div class="element_right">
+    <div class="right_container">
+      <h3>Our Collected Observations</h3>
+      <h5>Click to Uncover the Details</h5>
+      <ul>
+        {% for obs in observations %}
+          <li>
+            <div class="content">
+              <p class="obs_text">
+                <a href="{{ url_for('user.detail_observer', id=obs.userid) }}" class="obs_link">{{obs.user.get_full_name()}}</a>
+                observed star 
+                <a href="{{ url_for('star.detail_star', starname=obs.star.starname )}}" class="obs_link">{{ obs.star.starname }}</a>
+                of apparent magnitude
+                <strong>{{ obs.star.appmagnitude }}</strong>
+                using telescope
+                <a href="{{ url_for('telescope.detail_telescope', id=obs.telescope.id) }}" class="obs_link">{{ obs.telescope.fullname() }}</a>
+                of limiting magnitude
+                <strong>{{ obs.telescope.magnitude }}</strong>
+                in
+                {{ obs.city }}
+                in
+                {{obs.country }}.
+              </p>
+            </div>
+          </li>
+        {% else %}
+          <li>
+            <div class="content">
+              <p class="obs_text">
+                No observations found.
+              </p>
+            </div>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+
+  <div></div>
+
 </div>
 
-<hr style="border-color: white;">
-
-<div class="container">
-  <h3>Observation List</h3>
-  <h5>Click to see more information</h5>
-  <ul>
-    {% for obs in observations %}
-      <li>
-        <div class="content">
-        <p>{{ obs.user.firstname }} observed star <strong>{{ obs.star.starname }}</strong> of apparent magnitude {{ obs.star.appmagnitude }} using telescope <em>{{ obs.telescope.telescopename }}</em> of limiting magnitude {{ obs.telescope.magnitude }} in {{ obs.city }}, {{ obs.country }}.</p>
-        </div>
-      </li>
-    {% else %}
-      <p style="text-align: center;">No observations found.</p>
-    {% endfor %}
-  </ul>
-</div>
 {% endblock %}

@@ -3,54 +3,206 @@ body {
     color: #eeeeee; /* Light text for readability */
     margin: 0;
     padding: 0px;
+    cursor: url("images/cursor.png") 4 4, auto;
 }
-
-/* Center headers */
 h3, h5 {
     text-align: center;
 }
 
+/* Structure */
+.element_page{
+    width: 100%;
+    height: 100%;
+    display: grid;
+    padding-top: 30px;
+    grid-template-columns: 1fr 4fr 1fr 9fr 1fr;
+}
+.element_left{
+    padding: 0px;
+}
+.element_right{
+    padding: 0px;
+}
+
 /* Container styling */
-.container {
-    max-width: 800px;
+/* .container {
+    width:100%;
     margin: 0 auto;
-    padding: 20px;
+    padding: 0px;
+} */
+
+/* Left column */
+.left_container {
+    width:100%;
+    margin: 0 auto;
+    padding: 0px;
+}
+.left_container_lower {
+    margin-top: 60px;
+    width:100%;
+    padding: 0px;
+}
+.left_container h3 {
+    margin: 0.2em; 
+    text-align: center;
+    font-size: 25px;
+    color: white;
+    font-family: 'Noto Serif SC', serif;
+    font-weight: 900;
+    text-decoration: none;
+    line-height: 1.5;
+}
+.left_container h4 {
+    margin-top: 30px;
+    margin-bottom: 0.2em; 
+    text-align: center;
+    font-size: 18px;
+    color: white;
+    font-family: 'Noto Serif SC', serif;
+    font-weight: 900;
+    text-decoration: none;
+    line-height: 1.5;
+}
+.left_container h5 {
+    margin-top: 20px;
+    margin-bottom: 20px; 
+    text-align: center;
+    font-size: 16px;
+    color: white;
+    font-family: 'Noto Serif SC', serif;
+    font-weight: 400;
+    text-decoration: none;
+    line-height: 1.5;
+}
+.left_container_lower h3 {
+    margin: 0.2em; 
+    text-align: center;
+    font-size: 25px;
+    color: white;
+    font-family: 'Noto Serif SC', serif;
+    font-weight: 900;
+    text-decoration: none;
+    line-height: 1.5;
+}
+.left_container_lower h4 {
+    margin-top: 30px;
+    margin-bottom: 0.2em; 
+    text-align: center;
+    font-size: 18px;
+    color: white;
+    font-family: 'Noto Serif SC', serif;
+    font-weight: 900;
+    text-decoration: none;
+    line-height: 1.5;
+}
+.left_container_lower h5 {
+    margin-top: 20px;
+    margin-bottom: 20px; 
+    text-align: center;
+    font-size: 16px;
+    color: white;
+    font-family: 'Noto Serif SC', serif;
+    font-weight: 400;
+    text-decoration: none;
+    line-height: 1.5;
+}
+.gap {
+    height: 50px;
+}
+
+/* Right column */
+.right_container {
+    width:100%;
+    margin: 0 auto;
+    padding: 0px;
+}
+.right_container h3 {
+    margin: 0.2em; 
+    text-align: center;
+    font-size: 25px;
+    color: white;
+    font-family: 'Noto Serif SC', serif;
+    font-weight: 900;
+    text-decoration: none;
+    line-height: 1.5;
+}
+.right_container h5 {
+    margin-top: 20px;
+    margin-bottom: 20px; 
+    text-align: center;
+    font-size: 16px;
+    color: white;
+    font-family: 'Noto Serif SC', serif;
+    font-weight: 400;
+    text-decoration: none;
+    line-height: 1.5;
+}
+
+.button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0px;
+    margin-top: 10px;
+}
+.button a {
+    display: inline-block;
+    width: 200px;
+    padding: 5px;
+    background: #3667d1;
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    border-radius: 8px;
+    border: none;
+    transition: 0.25s ease;
+    cursor: pointer;
+    font-weight: 600;
+    font-family: 'Noto Sans SC', sans-serif;
+    text-align: center;
 }
 
 /* Form Styling */
 form {
-    background-color: #444; /* Slightly lighter grey for form area */
-    padding: 20px;
+    background-color: #282828; /* Slightly lighter grey for form area */
+    width: 80%;
+    padding: 10px;
     border-radius: 8px;
-    max-width: 400px;
     margin: 0 auto; /* Center form */
     display: flex;
     flex-direction: column; /* Stack labels and inputs vertically */
+    font-size: 16px;
+    border: 1px solid #555;
 }
-
 label {
-    margin-top: 10px;
+    margin-top: 3px;
+    margin-bottom: 2px;
     font-weight: bold;
+    font-size: 16px;
+    margin-bottom: 1px;
+    font-family: 'Noto Sans SC', sans-serif;
+    font-weight: 400;
+    color: white;
 }
-
 input {
-    margin-bottom: 15px;
-    padding: 8px;
-    border: 1px solid #666;
+    margin-bottom: 7px;
+    padding: 3px;
+    border: 1px solid #555;
     border-radius: 4px;
     background-color: #eee;
+    font-size: 16px;
 }
-
 input[type="submit"] {
     background-color: #3667d1;
     color: white;
-    font-weight: bold;
+    font-weight: 600;
     cursor: pointer;
     border: none;
-    margin-top: 10px;
-    padding: 10px;
+    margin-top: 8px;
+    padding: 5px;
+    font-size: 16px;
+    font-family: 'Noto Sans SC', sans-serif;
 }
-
 input[type="submit"]:hover {
     background-color: #2950a3;
 }
@@ -61,14 +213,86 @@ ul {
     padding: 0;
 }
 
-/* Content Styling */
+/* List Styling */
 .content {
     color: #eee;
-    background-color: #444;
+    background-color: #282828;
     border: 1px solid #555;
-    margin: 15px 0;
-    padding: 15px;
+    margin: 5px 0;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    padding-left: 20px;
+    padding-right: 20px;
     border-radius: 5px;
+}
+.obs_text {
+    font-weight: 300;
+    font-size: 16px;
+    font-family: 'Noto Sans SC', sans-serif;
+    color: white;
+    line-height: 1.5;
+}
+.obs_link {
+    font-weight: 900;
+    font-size: 16px;
+    font-family: 'Noto Sans SC', sans-serif;
+    color: #2950a3;
+    line-height: 1.5;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block; 
+    padding: 2px 4px;
+    transition: all 0.3s ease-in-out; 
+}
+.obs_link:hover {
+    text-decoration: none;
+    color: white;
+    background-color: #2950a3;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.content_left_center {
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: #3667d1;
+}
+.content_left {
+    color: #eee;
+    background-color: #282828;
+    border: 1px solid #555;
+    margin-top: 2px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    padding-left: 20px;
+    padding-right: 20px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 75%;
+}
+.user_text {
+    font-weight: 900;
+    font-size: 16px;
+    font-family: 'Noto Sans SC', sans-serif;
+    color: #2950a3;
+    line-height: 1.5;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block; 
+    padding: 2px 4px;
+    transition: all 0.3s ease-in-out; 
+    text-align: center;
+}
+.user_text:hover {
+    text-decoration: none;
+    color: white;
+    background-color: #2950a3;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .error {

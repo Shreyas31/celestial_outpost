@@ -2,99 +2,149 @@
 
 {% block title %}Users{% endblock %}
 
+{% block style %}
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+<style>
+  main {
+    margin: 0;
+    width: 100%;
+    min-height: 100vh;
+    background-image: url("https://upload.wikimedia.org/wikipedia/commons/e/e4/NGC4666_-_HST_-_Potw2141a.jpg");
+    background-size: 100vw 100vh;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    color: black;
+
+    background-color: rgba(0, 0, 0, 0.5);
+    background-blend-mode: darken;
+
+    animation: fadeAlpha 5s infinite alternate;
+  }
+
+  @keyframes fadeAlpha {
+    0% {
+      background-color: rgba(0, 0, 0, 1);   /* fully dark */
+    }
+    100% {
+      background-color: rgba(0, 0, 0, 0);   /* fully transparent */
+    }
+  }
+</style>
+
+{% endblock %}
+
 {% block content %}
-<body>
-  <header>
-    <h1>User Records</h1>
-    <p>Sign up and query user observations in the system.</p>
-  </header>
+<div class="element_page">
+  
+  <div></div>
 
-  {% if error %}
-    <div class="error">{{ error }}</div>
-  {% endif %}
+  <div class="element_left">
 
-  {% if success %}
-    <div class="success">{{ success }}</div>
-  {% endif %}
-
-  <div class="container">
-    <h3>Add New User</h3>
+    <div class="left_container">
+      <h3>Sign Up to Our Community</h3>
+      <h5>Stepping into a Constellation of People Bound by Curiosity</h5>
       <form action="{{ url_for('user.add_observer') }}" method="POST">
         
-          <label for="lastname">Last Name:</label>
-          <input type="text" id="lastname" name="lastname" required>
-        
-        
-          <label for="firstname">First Name:</label>
-          <input type="text" id="firstname" name="firstname" required>
-        
-        
-          <label for="middlenames">Middle Names (optional):</label>
-          <input type="text" id="middlenames" name="middlenames">
-        
-        
-          <label for="initials">Initials (optional):</label>
-          <input type="text" id="initials" name="initials">
-        
-        
-          <label for="email">Email Address:</label>
-          <input type="email" id="email" name="email" required>
-        
-        
-          <label for="institution">Institution (optional):</label>
-          <input type="text" id="institution" name="institution">
-        
-        
-          <label for="city">City:</label>
-          <input type="text" id="city" name="city" required>
-        
-        
-          <label for="country">Country:</label>
-          <input type="text" id="country" name="country" required>
-        
+        <label for="lastname">Last Name:</label>
+        <input type="text" id="lastname" name="lastname" required>
+      
+        <label for="firstname">First Name:</label>
+        <input type="text" id="firstname" name="firstname" required>
+      
+        <label for="middlenames">Middle Names (optional):</label>
+        <input type="text" id="middlenames" name="middlenames">
+      
+        <label for="initials">Initials (optional):</label>
+        <input type="text" id="initials" name="initials">
+      
+        <label for="email">Email Address:</label>
+        <input type="email" id="email" name="email" required>
+      
+        <label for="institution">Institution (optional):</label>
+        <input type="text" id="institution" name="institution">
+      
+        <label for="city">City:</label>
+        <input type="text" id="city" name="city" required>
+      
+        <label for="country">Country:</label>
+        <input type="text" id="country" name="country" required>
+      
         <input type="submit" value="Sign up">
+
       </form>
-  </div>
+    </div>
 
-  <hr>
+    <div class="left_container_lower">   
+      <h3>Query Stargazer's Insights</h3>
+      <h5>Reach Out and Uncover Your Friends’ Discoveries</h5>
+      <form action="{{ url_for('user.search_observer_by_name') }}" method="POST">
+        <label for="name">Enter Last Name to Search by</label>
+        <input type="text" id="name" name="name" required>
+        <input type="submit" value="Submit">
+      </form>
+    </div>
 
-  <div class="container">
-    <h3> Query User Observations </h3>
-    <form action="{{ url_for('user.search_observer_by_name') }}" method="POST">
-      <label for="name">Enter Last Name to Search by</label>
-      <input type="text" id="name" name="name" required>
-      <input type="submit" value="submit">
-    </form>
-  </div>
-  {% if user_list %}
-    <h3>Matching Users:</h3>
-    <ul>
-    {% for u in user_list %}
-      <li>
-        <div class="content">
-        <a href="{{ url_for('user.detail_observer', id=u.id )}}"><strong>{{ u.get_full_name() }}</strong></a>
-        </div>
-      </li>
-    {% endfor %}
-    </ul>
-  {% endif %}
+    {% if error %}
+    <div class="left_container_lower">
+      <h4>{{ error }}</h4>   
+    </div>         
+    {% endif %}
 
-  <div class="container">
-    <h3>User Observations Leaderboard</h3>
-      <strong>Top 50 Observers:</strong>
-      <p>
-      {% for i in range(users|length) %}
+    {% if success %}
+    <div class="left_container_lower">
+      <h4>{{ success }}</h4> 
+    </div>
+    {% endif %}
+    
+    {% if user_list %}
+    <div class="left_container_lower">
+      <h4>Matching Users:</h4>
       <ul>
+        {% for u in user_list %}
         <li>
-          <div class="content">
-            {{ users[i].firstname }} observed <strong>{{ counts[i] }}</strong> stars including
-            {% for star in observed_stars[i] %}
-              {{ star.starname }}
-            {% endfor %}
+          <div class="content_left_center">
+            <div class="content_left">
+            <a href="{{ url_for('user.detail_observer', id=u.id )}}" class="user_text">{{ u.get_full_name() }}</a>
+            </div>
           </div>
         </li>
+        {% endfor %}
       </ul>
-      {% endfor %}
-      </p>
+    </div>  
+    {% endif %}
+
   </div>
-  {% endblock %}
+
+  <div></div>
+
+  <div class="element_right">
+    <div class="right_container">
+      <h3>Stargazer Championship</h3>
+      <h5>Our Top 50 Contributors</h5>
+      <ul>
+      {% for i in range(users|length) %}
+        <li>
+          <div class="content">
+            <p class="obs_text">
+              <a href="{{ url_for('user.detail_observer', id=users[i].id) }}" class="obs_link">{{ users[i].get_full_name() }}</a>
+              observed
+              <strong>{{ counts[i] }}</strong>
+              stars including
+              {% for star in observed_stars[i] %}
+              <a href="{{ url_for('star.detail_star', starname=star.starname )}}" class="obs_link">{{ star.starname }}</a>
+              {% endfor %}
+            </p>
+          </div>
+        </li>
+      {% endfor %}
+      </ul>
+    </div>
+  </div>
+
+  <div></div>
+
+</div>
+
+{% endblock %}

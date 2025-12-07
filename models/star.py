@@ -1,4 +1,5 @@
-from sqlalchemy.orm import Mapped, relationship
+from sqlalchemy.orm import Mapped, relationship, mapped_column
+from sqlalchemy import Numeric
 
 from models.base import Base
 
@@ -12,7 +13,7 @@ class Star(Base):
     coordra: Mapped[float]
     coorddec: Mapped[float]
     color: Mapped[str]
-    appmagnitude: Mapped[float]
+    appmagnitude: Mapped[float] = mapped_column(Numeric(3,2))
     measurefilter: Mapped[str]
 
     observations: Mapped[list["Observation"]] = relationship(back_populates="star")
