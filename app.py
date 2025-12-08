@@ -1,3 +1,4 @@
+import os
 import requests
 from requests import Response
 from datetime import datetime, timedelta
@@ -32,7 +33,7 @@ app.register_blueprint(observation_api_bp)
 @app.route("/", methods=["GET", "POST"])
 def home():
     url: str = "https://api.nasa.gov/planetary/apod"
-    API_KEY = "wEBGgaS95dGL6qtXFfHE6q4ViVALH7DIE48lJbNb"
+    API_KEY = os.getenv("NASA_API_KEY")
 
     NY_TZ = ZoneInfo("America/New_York")
     current_date = datetime.now(NY_TZ)
@@ -59,8 +60,4 @@ def home():
 
     image_url: Optional[str] = data.get("url")
 
-    return render_template(
-        "home.html",
-        image_url=image_url,
-        media_type=media_type
-    )
+    return render_template("home.html", image_url=image_url, media_type=media_type)
