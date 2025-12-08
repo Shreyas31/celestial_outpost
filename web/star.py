@@ -90,6 +90,8 @@ def detail_star(starname: str):
     with Session(engine) as session:
         observations = session.execute(stmt).scalars().all()
 
+    image = get_image_url(star.startype)
+
     return render_template(
         "star/detail.html",
         star=star,
@@ -97,4 +99,5 @@ def detail_star(starname: str):
         queried_name=queried_name,
         startype=startype,
         observations=observations,
+        image=image
     )
