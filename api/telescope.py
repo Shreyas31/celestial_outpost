@@ -41,7 +41,7 @@ def get_telescope(id: int):
     return response, 200
 
 
-@telescope_api_bp.route("/add", methods=["POST"])
+@telescope_api_bp.route("/", methods=["POST"])
 def add_telescope():
     data = request.get_json()
 

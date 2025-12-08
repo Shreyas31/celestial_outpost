@@ -55,6 +55,7 @@ def get_newest_observations(count: int):
 
     return jsonify([obs.to_dict() for obs in observations]), 200
 
+
 @observation_api_bp.route("/")
 def get_all_observations():
     """
@@ -67,7 +68,8 @@ def get_all_observations():
 
     return jsonify([obs.to_dict() for obs in observations]), 200
 
-@observation_api_bp.route("/add", methods=["POST"])
+
+@observation_api_bp.route("/", methods=["POST"])
 def add_observation():
     """
     API endpoint to add an observation to the db. A user,

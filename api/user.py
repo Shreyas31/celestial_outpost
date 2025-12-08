@@ -121,7 +121,7 @@ def get_users_by_lastname(lastname: str):
     return jsonify(response), 200
 
 
-@user_api_bp.route("/add", methods=["POST"])
+@user_api_bp.route("/", methods=["POST"])
 def add_user():
     data = request.get_json()
 
