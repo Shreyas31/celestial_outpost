@@ -3,60 +3,91 @@
 {% block title %}View: {{ starname }}{% endblock %}
 
 {% block style %}
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
 <style>
-  .content {
+  main {
+    margin: 0;
     width: 100%;
-    text-align: center;
+    min-height: 100vh;
+    background-image: url("https://upload.wikimedia.org/wikipedia/commons/e/e4/NGC4666_-_HST_-_Potw2141a.jpg");
+    background-size: 100vw 100vh;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    color: black;
+
+    background-color: rgba(0, 0, 0, 0.5);
+    background-blend-mode: darken;
+
+    animation: fadeAlpha 5s infinite alternate;
   }
 
-  .content table {
-    margin: 0 auto;
+  @keyframes fadeAlpha {
+    0% {
+      background-color: rgba(0, 0, 0, 1);   /* fully dark */
+    }
+    100% {
+      background-color: rgba(0, 0, 0, 0);   /* fully transparent */
+    }
   }
 </style>
 {% endblock %}
 
 {% block content %}
-<div class="content">
-  {% if star %}
-    <table>
-      <thead>
-        <tr>
-          <th>Field</th>
-          <th>Value</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Designation</td>
-          <td>{{ star.starname }}</td>
-        </tr>
-        <tr>
-          <td>Type of object</td>
-          <td>{{ startype }}</td>
-        </tr>
-        <tr>
-          <td>Coordinates</td>
-          <td>{{ star.coords_text() }}</td>
-        </tr>
-        <tr>
-          <td>Magnitude</td>
-          <td>{{ star.magnitude_text() }}</td>
-        </tr>
-        <tr>
-          <td>Color</td>
-          <td>{{ star.color }}</td>
-        </tr>
-      </tbody>
-    </table>
-    {% if observations %}
-      {% for obs in observations %}
-        <p>Observation: {{ obs.user.get_full_name() }} (WIP)</p>
-      {% endfor %}
-    {% else %}
-      <p>There are no observations for star {{ starname }}. Would you like to add one?</p>
-    {% endif %}
-  {% else %}
-    <div class="error">Star with name {{ starname }} does not exist in the database.</div>
-  {% endif %}
+{% if star %}
+<div class="element_page">
+  <div></div>
+  <div class="element_left">
+    <div class="left_container">
+      <h3>{{ star.starname }}</h3>
+      <h5><strong>Type:</strong> {{ startype }}</h5>
+      <h5><strong>Coordinates:</strong> {{ star.coords_text() }}</h5>
+      <h5><strong>Magnitude:</strong> {{ star.magnitude_text() }}</h5>
+      <h5><strong>Colour:</strong> {{ star.color }}</h5>
+      {% if image %}
+      <div style="display: flex; justify-content: center; margin-top: 20px;">
+        <img src="{{ url_for('static', filename='images/' ~ image) }}" alt="{{ star.starname }}"
+          style="max-width: 100%; border-radius: 10px;">
+      </div>
+      {% endif %}
+    </div>
+  </div>
+  <div></div>
+  <div class="element_right">
+    <div class="right_container">
+      <h3>Observations of {{ star.starname }}</h3>
+      {% if observations %}
+      <ul>
+        {% for obs in observations %}
+        <li class="content">
+          <p class="obs_text">
+            Observed by <a class="obs_link" href="{{ url_for('user.detail_observer', id=obs.user.id) }}">{{
+              obs.user.firstname }} {{ obs.user.lastname }}</a>
+            with <a class="obs_link" href="{{ url_for('telescope.detail_telescope', id=obs.telescope.id) }}">{{
+              obs.telescope.name }}</a>
+          </p>
+        </li>
+        {% endfor %}
+      </ul>
+      {% else %}
+      <p class="obs_text" style="text-align: center;">No observations recorded yet.</p>
+      {% endif %}
+    </div>
+  </div>
+  <div></div>
 </div>
+{% else %}
+<div class="element_page">
+  <div></div>
+  <div class="element_left"></div>
+  <div></div>
+  <div class="element_right">
+    <div class="right_container">
+      <h3>Star with name {{ starname }} does not exist in the database.</h3>
+    </div>
+  </div>
+  <div></div>
+</div>
+{% endif %}
 {% endblock %}

@@ -1,27 +1,102 @@
 {% extends 'base.html' %}
 
-{% block title %} 
-  {% if user %}
-    Observer {{ user.firstname }}
-  {% else %}
-    404 Observer Not found
-  {% endif %}
+{% block title %}
+{% if user %}
+Observer {{ user.firstname }}
+{% else %}
+404 Observer Not found
+{% endif %}
+{% endblock %}
+
+{% block style %}
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+<style>
+  main {
+    margin: 0;
+    width: 100%;
+    min-height: 100vh;
+    background-image: url("https://upload.wikimedia.org/wikipedia/commons/e/e4/NGC4666_-_HST_-_Potw2141a.jpg");
+    background-size: 100vw 100vh;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    color: black;
+
+    background-color: rgba(0, 0, 0, 0.5);
+    background-blend-mode: darken;
+
+    animation: fadeAlpha 5s infinite alternate;
+  }
+
+  @keyframes fadeAlpha {
+    0% {
+      background-color: rgba(0, 0, 0, 1);   /* fully dark */
+    }
+    100% {
+      background-color: rgba(0, 0, 0, 0);   /* fully transparent */
+    }
+  }
+</style>
+
 {% endblock %}
 
 {% block content %}
-  {% if user %}
-  <div>
-    <p><strong>Name:</strong> {{ user.firstname }} {{ user.lastname }}</p>
-    <p><strong>Email:</strong> {{ user.email }}</p>
-    <p><strong>Middle Names:</strong> {{ user.middlenames or 'N/A' }}</p>
-    <p><strong>Initials:</strong> {{ user.initials or 'N/A' }}</p>
-    <p><strong>Institution:</strong> {{ user.institution or 'N/A' }}</p>
-    <p><strong>Location:</strong> {{ user.city or 'N/A' }}, {{ user.country or 'N/A' }}
-    </p>
+{% if user %}
+<div class="element_page">
+  <div></div>
+  <div class="element_left">
+    <div class="left_container">
+      <h3>{{ user.firstname }} {{ user.lastname }}</h3>
+      <h5><strong>Email:</strong> {{ user.email }}</h5>
+      {% if user.middlenames %}
+      <h5><strong>Middle Names:</strong> {{ user.middlenames }}</h5>
+      {% endif %}
+      {% if user.initials %}
+      <h5><strong>Initials:</strong> {{ user.initials }}</h5>
+      {% endif %}
+      {% if user.institution %}
+      <h5><strong>Institution:</strong> {{ user.institution }}</h5>
+      {% endif %}
+      <h5><strong>Location:</strong> {{ user.city }}, {{ user.country }}</h5>
+    </div>
   </div>
-  {% else %}
-  <div class="error">
-    <p>404 - No user found with the given ID.</p>
+  <div></div>
+  <div class="element_right">
+    <div class="right_container">
+      <h3>{{ user.firstname }} has observed</h3>
+      {% if observations %}
+      <ul>
+        {% for obs in observations %}
+        <li class="content">
+          <p class="obs_text">
+            Star <a class="obs_link" href="{{ url_for('star.detail_star', starname=obs.star.starname) }}">{{
+              obs.star.starname }}</a>
+            with telescope <a class="obs_link"
+              href="{{ url_for('telescope.detail_telescope', id=obs.telescope.id) }}">{{ obs.telescope.name }}</a>
+            <br>
+          </p>
+        </li>
+        {% endfor %}
+      </ul>
+      {% else %}
+      <p class="obs_text" style="text-align: center;">No observations recorded yet.</p>
+      {% endif %}
+    </div>
   </div>
-  {% endif %}
+  <div></div>
+</div>
+{% else %}
+<div class="element_page">
+  <div></div>
+  <div class="element_left"></div>
+  <div></div>
+  <div class="element_right">
+    <div class="right_container">
+      <h3>404 - No user found with the given ID.</h3>
+    </div>
+  </div>
+  <div></div>
+</div>
+{% endif %}
 {% endblock %}

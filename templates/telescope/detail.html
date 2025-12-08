@@ -2,19 +2,97 @@
 
 {% block title %}View: {{ telescope.name }}{% endblock %}
 
-{% block style %}{% endblock %}
+{% block style %}
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+<style>
+  main {
+    margin: 0;
+    width: 100%;
+    min-height: 100vh;
+    background-image: url("https://upload.wikimedia.org/wikipedia/commons/e/e4/NGC4666_-_HST_-_Potw2141a.jpg");
+    background-size: 100vw 100vh;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    color: black;
+
+    background-color: rgba(0, 0, 0, 0.5);
+    background-blend-mode: darken;
+
+    animation: fadeAlpha 5s infinite alternate;
+  }
+
+  @keyframes fadeAlpha {
+    0% {
+      background-color: rgba(0, 0, 0, 1);   /* fully dark */
+    }
+    100% {
+      background-color: rgba(0, 0, 0, 0);   /* fully transparent */
+    }
+  }
+</style>
+
+{% endblock %}
 
 {% block content %}
-<div class="content">
-  <h3>Telescope information</h3>
-  <ul>
-      <li>
-        <small>{{telescope.id}}</small>
-        <small>{{telescope.name}}</small>
-        <small>{{telescope.manufacturer}}</small>
-        <small>{{telescope.aperture}}</small>
-        <small>{{telescope.magnitude}}</small>
-      </li>
-  </ul>
+{% if telescope %}
+<div class="element_page">
+  <div></div>
+  <div class="element_left">
+    <div class="left_container">
+      <h3>{{ telescope.name }}</h3>
+      <h5><strong>Manufacturer:</strong> {{ telescope.manufacturer }}</h5>
+      <h5><strong>Aperture:</strong> {{ telescope.aperture }} mm</h5>
+      <h5><strong>Focal Length:</strong> {{ telescope.focuslength }} mm</h5>
+      <h5><strong>Magnitude:</strong> {{ telescope.magnitude }}</h5>
+      {% if telescope.purchasable %}
+      <h5><strong>Purchasable:</strong> Yes</h5>
+      {% else %}
+      <h5><strong>Purchasable:</strong> No</h5>
+      {% endif %}
+      {% if telescope.imageurl %}
+      <div style="display: flex; justify-content: center; margin-top: 20px;">
+        <img src="{{ telescope.imageurl }}" alt="{{ telescope.name }}" style="max-width: 100%; border-radius: 10px;">
+      </div>
+      {% endif %}
+    </div>
+  </div>
+  <div></div>
+  <div class="element_right">
+    <div class="right_container">
+      <h3>Observations with {{ telescope.name }}</h3>
+      {% if observations %}
+      <ul>
+        {% for obs in observations %}
+        <li class="content">
+          <p class="obs_text">
+            Star <a class="obs_link" href="{{ url_for('star.detail_star', starname=obs.star.starname) }}">{{
+              obs.star.starname }}</a>
+            by <a class="obs_link" href="{{ url_for('user.detail_observer', id=obs.user.id) }}">{{ obs.user.firstname }}
+              {{ obs.user.lastname }}</a>
+          </p>
+        </li>
+        {% endfor %}
+      </ul>
+      {% else %}
+      <p class="obs_text" style="text-align: center;">No observations recorded yet.</p>
+      {% endif %}
+    </div>
+  </div>
+  <div></div>
 </div>
+{% else %}
+<div class="element_page">
+  <div></div>
+  <div class="element_left"></div>
+  <div></div>
+  <div class="element_right">
+    <div class="right_container">
+      <h3>404 - Telescope not found.</h3>
+    </div>
+  </div>
+  <div></div>
+</div>
+{% endif %}
 {% endblock %}
