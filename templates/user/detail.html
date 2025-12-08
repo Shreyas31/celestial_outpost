@@ -64,7 +64,7 @@ Observer {{ user.firstname }}
   <div></div>
   <div class="element_right">
     <div class="right_container">
-      <h3>{{ user.firstname }} has observed</h3>
+      <h3>{{ user.firstname }} {{ user.lastname }} has observed</h3>
       {% if observations %}
       <ul>
         {% for obs in observations %}
