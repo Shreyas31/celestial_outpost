@@ -3,7 +3,6 @@ body {
     color: #eeeeee;
     margin: 0;
     padding: 0px;
-    cursor: url("images/cursor.png") 4 4, auto;
 }
 h3, h5 {
     text-align: center;
@@ -339,14 +338,14 @@ form {
     margin: 0 auto; /* Center form */
     display: flex;
     flex-direction: column; /* Stack labels and inputs vertically */
-    font-size: 16px;
+    font-size: 14px;
     border: 1px solid #555;
 }
 label {
     margin-top: 3px;
     margin-bottom: 2px;
     font-weight: bold;
-    font-size: 16px;
+    font-size: 14px;
     margin-bottom: 1px;
     font-family: 'Noto Sans SC', sans-serif;
     font-weight: 400;
@@ -358,7 +357,7 @@ input {
     border: 1px solid #555;
     border-radius: 4px;
     background-color: #eee;
-    font-size: 16px;
+    font-size: 14px;
 }
 input[type="submit"] {
     background-color: #3667d1;
@@ -368,7 +367,7 @@ input[type="submit"] {
     border: none;
     margin-top: 8px;
     padding: 5px;
-    font-size: 16px;
+    font-size: 14px;
     font-family: 'Noto Sans SC', sans-serif;
 }
 input[type="submit"]:hover {
@@ -393,14 +392,14 @@ ul {
 }
 .obs_text {
     font-weight: 300;
-    font-size: 16px;
+    font-size: 14px;
     font-family: 'Noto Sans SC', sans-serif;
     color: white;
     line-height: 1.5;
 }
 .obs_link {
     font-weight: 900;
-    font-size: 16px;
+    font-size: 14px;
     font-family: 'Noto Sans SC', sans-serif;
     color: #2950a3;
     line-height: 1.5;
