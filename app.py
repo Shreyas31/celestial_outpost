@@ -16,8 +16,6 @@ from api.telescope import telescope_api_bp
 from api.user import user_api_bp
 from api.observation import observation_api_bp
 
-from urllib.parse import urlparse, parse_qs
-
 app = Flask(__name__)
 
 app.register_blueprint(star_bp)
