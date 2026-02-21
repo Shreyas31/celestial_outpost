@@ -1,6 +1,7 @@
 **Celestial Outpost** is an interactive web application designed for a community of night-sky wanderers to document and share their astronomical findings. Whether you are a beginner or a veteran stargazer, this platform serves as a shared frontier to chart sightings, compare notes, and explore the cosmos collectively.
 
-**Features**
+# Features
+
 
 Observation Journal: Log your cosmic moments by recording the star observed, the telescope used, and the specific location (city and country).
 
@@ -12,7 +13,9 @@ Stargazer Community: Connect with fellow explorers, view "Community Champions" w
 
 NASA Integration: The home page features a dynamic background that refreshes daily using the NASA Image of the Day API.
 
-**Tech Stack**
+
+# Tech Stack
+
 
 Framework: Flask (Python)
 
